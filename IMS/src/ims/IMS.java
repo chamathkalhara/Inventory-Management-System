@@ -6,6 +6,7 @@
 package ims;
 
 import ims.view.Login;
+import ims.view.StoreKeeperMain;
 
 /**
  *
@@ -17,9 +18,14 @@ public class IMS {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Login login = new Login();
-        login.setVisible(true);
-        login.setLocationRelativeTo(null);
+        //Login login = new Login();
+        //login.setVisible(true);
+        //login.setLocationRelativeTo(null);
+        
+        StoreKeeperMain skm = new StoreKeeperMain();
+        skm.setVisible(true);
+        skm.setLocationRelativeTo(null);
+
     }
     
 }

@@ -109,7 +109,7 @@ public class StoreKeeperMain extends javax.swing.JFrame {
 
         jButton1.setBackground(new java.awt.Color(10, 0, 177));
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(10, 0, 177));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Add Category");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -117,24 +117,24 @@ public class StoreKeeperMain extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(10, 0, 177));
+        jButton2.setBackground(new java.awt.Color(51, 102, 255));
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(10, 0, 177));
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Add Brand");
 
-        jButton3.setBackground(new java.awt.Color(10, 0, 177));
+        jButton3.setBackground(new java.awt.Color(51, 102, 255));
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(10, 0, 177));
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Add Product Type");
 
-        jButton4.setBackground(new java.awt.Color(10, 0, 177));
+        jButton4.setBackground(new java.awt.Color(51, 102, 255));
         jButton4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(10, 0, 177));
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setText("Add Product");
 
-        jButton5.setBackground(new java.awt.Color(10, 0, 177));
+        jButton5.setBackground(new java.awt.Color(51, 102, 255));
         jButton5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(10, 0, 177));
+        jButton5.setForeground(new java.awt.Color(255, 255, 255));
         jButton5.setText("Update Safety Stock Level");
 
         jLabel3.setBackground(new java.awt.Color(10, 0, 177));
@@ -148,9 +148,9 @@ public class StoreKeeperMain extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(255, 0, 0));
         jLabel4.setText("Stock");
 
-        jButton6.setBackground(new java.awt.Color(255, 0, 0));
+        jButton6.setBackground(new java.awt.Color(255, 102, 102));
         jButton6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton6.setForeground(new java.awt.Color(255, 0, 0));
+        jButton6.setForeground(new java.awt.Color(255, 255, 255));
         jButton6.setText("Add Stock");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -158,19 +158,19 @@ public class StoreKeeperMain extends javax.swing.JFrame {
             }
         });
 
-        jButton7.setBackground(new java.awt.Color(255, 0, 0));
+        jButton7.setBackground(new java.awt.Color(255, 102, 102));
         jButton7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton7.setForeground(new java.awt.Color(255, 0, 0));
+        jButton7.setForeground(new java.awt.Color(255, 255, 255));
         jButton7.setText("Issue (For Registered Customers)");
 
-        jButton8.setBackground(new java.awt.Color(255, 0, 0));
+        jButton8.setBackground(new java.awt.Color(255, 102, 102));
         jButton8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton8.setForeground(new java.awt.Color(255, 0, 0));
+        jButton8.setForeground(new java.awt.Color(255, 255, 255));
         jButton8.setText("Issue (For non-registered customers)");
 
-        jButton9.setBackground(new java.awt.Color(255, 0, 0));
+        jButton9.setBackground(new java.awt.Color(255, 102, 102));
         jButton9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton9.setForeground(new java.awt.Color(255, 0, 0));
+        jButton9.setForeground(new java.awt.Color(255, 255, 255));
         jButton9.setText("Return Stock");
 
         jSeparator2.setForeground(new java.awt.Color(255, 0, 0));
@@ -200,7 +200,7 @@ public class StoreKeeperMain extends javax.swing.JFrame {
 
         jButton12.setBackground(new java.awt.Color(21, 36, 90));
         jButton12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton12.setForeground(new java.awt.Color(21, 36, 90));
+        jButton12.setForeground(new java.awt.Color(255, 255, 255));
         jButton12.setText("Add Suplier");
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -209,7 +209,7 @@ public class StoreKeeperMain extends javax.swing.JFrame {
 
         jButton13.setBackground(new java.awt.Color(137, 34, 34));
         jButton13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton13.setForeground(new java.awt.Color(137, 34, 34));
+        jButton13.setForeground(new java.awt.Color(255, 255, 255));
         jButton13.setText("Add Registered Customer");
 
         jButton15.setBackground(new java.awt.Color(255, 0, 0));
@@ -255,13 +255,12 @@ public class StoreKeeperMain extends javax.swing.JFrame {
                         .addGap(8, 8, 8)
                         .addComponent(intFrame))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
                             .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton13, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel7)
                                 .addGap(0, 0, Short.MAX_VALUE)))))
@@ -277,10 +276,10 @@ public class StoreKeeperMain extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
-                    .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
