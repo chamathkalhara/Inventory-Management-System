@@ -5,7 +5,11 @@
  */
 package ims;
 
+import ims.view.CashierMain;
+import ims.view.ChangePassword;
 import ims.view.Login;
+import ims.view.Login2;
+import ims.view.ManagerMain2;
 import ims.view.StoreKeeperMain;
 
 /**
@@ -22,7 +26,7 @@ public class IMS {
         //login.setVisible(true);
         //login.setLocationRelativeTo(null);
         
-        StoreKeeperMain skm = new StoreKeeperMain();
+        ChangePassword skm = new ChangePassword();
         skm.setVisible(true);
         skm.setLocationRelativeTo(null);
 
