@@ -30,7 +30,7 @@ public class StoreKeeperMain extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        intFrame = new javax.swing.JInternalFrame();
+        storeKeeperInnerFrame = new javax.swing.JInternalFrame();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -52,6 +52,7 @@ public class StoreKeeperMain extends javax.swing.JFrame {
         jButton11 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setAutoRequestFocus(false);
         setBackground(new java.awt.Color(204, 204, 204));
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
@@ -90,16 +91,16 @@ public class StoreKeeperMain extends javax.swing.JFrame {
                 .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        intFrame.setVisible(true);
+        storeKeeperInnerFrame.setVisible(true);
 
-        javax.swing.GroupLayout intFrameLayout = new javax.swing.GroupLayout(intFrame.getContentPane());
-        intFrame.getContentPane().setLayout(intFrameLayout);
-        intFrameLayout.setHorizontalGroup(
-            intFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout storeKeeperInnerFrameLayout = new javax.swing.GroupLayout(storeKeeperInnerFrame.getContentPane());
+        storeKeeperInnerFrame.getContentPane().setLayout(storeKeeperInnerFrameLayout);
+        storeKeeperInnerFrameLayout.setHorizontalGroup(
+            storeKeeperInnerFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
-        intFrameLayout.setVerticalGroup(
-            intFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        storeKeeperInnerFrameLayout.setVerticalGroup(
+            storeKeeperInnerFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 573, Short.MAX_VALUE)
         );
 
@@ -276,7 +277,7 @@ public class StoreKeeperMain extends javax.swing.JFrame {
                                 .addGap(28, 28, 28)
                                 .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(intFrame)
+                        .addComponent(storeKeeperInnerFrame)
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -328,7 +329,7 @@ public class StoreKeeperMain extends javax.swing.JFrame {
                         .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(intFrame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(storeKeeperInnerFrame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -336,7 +337,10 @@ public class StoreKeeperMain extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        AddCategory addCategory = new AddCategory();
+        //addCategory.setVisible(true);
+        storeKeeperInnerFrame.add(addCategory);
+        addCategory.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -399,7 +403,6 @@ public class StoreKeeperMain extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JInternalFrame intFrame;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -422,5 +425,6 @@ public class StoreKeeperMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JInternalFrame storeKeeperInnerFrame;
     // End of variables declaration//GEN-END:variables
 }
