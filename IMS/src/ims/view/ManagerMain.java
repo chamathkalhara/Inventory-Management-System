@@ -270,10 +270,7 @@ public class ManagerMain extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUserActionPerformed
-        intFrame.setLayout(new FlowLayout());
-        AddUsers addUsers = new AddUsers();
-        intFrame.add(addUsers);
-        intFrame.setVisible(true);
+
     }//GEN-LAST:event_btnAddUserActionPerformed
 
     private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
