@@ -37,6 +37,8 @@ public class AddBrand extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
+        setClosable(true);
+
         jList1.setBackground(new java.awt.Color(204, 204, 204));
         jList1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jList1.setForeground(new java.awt.Color(51, 0, 153));

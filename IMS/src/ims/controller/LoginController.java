@@ -18,7 +18,7 @@ import java.sql.Statement;
  */
 public class LoginController {
 
-    public static User getUser(String userName) throws SQLException, ClassNotFoundException {
+    public User getUser(String userName) throws SQLException, ClassNotFoundException {
         
         Connection connection = DBConnection.getInstance().getConnection();
         Statement statement = connection.createStatement();

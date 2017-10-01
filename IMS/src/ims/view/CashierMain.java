@@ -16,6 +16,7 @@ public class CashierMain extends javax.swing.JFrame {
      */
     public CashierMain() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
