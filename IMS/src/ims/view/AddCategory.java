@@ -6,9 +6,11 @@
 package ims.view;
 
 import ims.controller.CategoryController;
+import ims.model.Category;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,6 +19,7 @@ import java.util.logging.Logger;
 public class AddCategory extends javax.swing.JInternalFrame {
 
     private CategoryController categoryController;
+
     /**
      * Creates new form AddCategory
      */
@@ -26,9 +29,7 @@ public class AddCategory extends javax.swing.JInternalFrame {
         try {
             String[] s = null;
             lstCategory.setListData(categoryController.getAllCategoryNames().toArray(s));
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AddCategory.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(AddCategory.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -288,11 +289,33 @@ public class AddCategory extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtNewCategoryActionPerformed
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
-        // TODO add your handling code here:
+        if (!txtNewCategory.getText().equals("")) {
+            try {
+                String newId = categoryController.getNewId();
+                String name = txtNewCategory.getText();
+
+                Category category = new Category(newId, name);
+                int result = categoryController.addCategory(category);
+                if (result > 0) {
+                    JOptionPane.showMessageDialog(this, "New Category successfully added", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    String[] s = null;
+                    lstCategory.setListData(categoryController.getAllCategoryNames().toArray(s));
+                    txtNewCategory.setText("");
+                }else{
+                    JOptionPane.showMessageDialog(this, "Category added failed", "Failed", JOptionPane.ERROR_MESSAGE);
+                    txtNewCategory.setText("");
+                }
+            } catch (ClassNotFoundException | SQLException ex) {
+                Logger.getLogger(AddCategory.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Cateory name can't be null", "Error", JOptionPane.INFORMATION_MESSAGE);
+            txtNewCategory.requestFocus();
+        }
     }//GEN-LAST:event_btnCreateActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed

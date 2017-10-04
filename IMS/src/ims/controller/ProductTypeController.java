@@ -7,6 +7,7 @@ package ims.controller;
 
 import ims.db.DBConnection;
 import ims.model.Category;
+import ims.model.ProductType;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,25 +18,25 @@ import java.util.ArrayList;
  *
  * @author chamath
  */
-public class CategoryController {
+public class ProductTypeController {
     
-    public ArrayList<String> getAllCategoryNames() throws ClassNotFoundException, SQLException{
+    public ArrayList<String> getAllProductTypeNames() throws ClassNotFoundException, SQLException{
         Connection connection = DBConnection.getInstance().getConnection();
         Statement statement = connection.createStatement();
-        String sql = "select * from category";
+        String sql = "select * from productType";
         ResultSet resultSet = statement.executeQuery(sql);
-        ArrayList<String> categoryList = new ArrayList<>();
+        ArrayList<String> productTypeList = new ArrayList<>();
         
         while (resultSet.next()) {
-            categoryList.add(resultSet.getString(1));
+            productTypeList.add(resultSet.getString(1));
         }
-        return categoryList;
+        return productTypeList;
     } 
     
-    public int addCategory(Category category) throws SQLException, ClassNotFoundException{
+    public int addproductTypeList(ProductType productType) throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getInstance().getConnection();
         Statement statement = connection.createStatement();
-        String sql = "insert into category values ('"+category.getId()+"','"+category.getName()+"')";
+        String sql = "insert into productType values ('"+productType.getId()+"','"+productType.getName()+"')";
         int result = statement.executeUpdate(sql);
         return result;
     }
@@ -44,18 +45,18 @@ public class CategoryController {
         String lastId = getLastId();
         String substring = lastId.substring(3);
         int lastIdInt = Integer.parseInt(substring);
-        return "CAT"+lastIdInt+1;
+        return "PRT"+lastIdInt+1;
     }
     
     private String getLastId() throws ClassNotFoundException, SQLException{
         Connection connection = DBConnection.getInstance().getConnection();
         Statement statement = connection.createStatement();
-        String sql = "select id from category desc 1 limit 1";
+        String sql = "select id from productType desc 1 limit 1";
         ResultSet result = statement.executeQuery(sql);
         if(result.next()){
             return result.getString(0);
         }else{
-            return "CAT000";
+            return "PRT000";
         }
     }
 }
