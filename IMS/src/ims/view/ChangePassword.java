@@ -5,18 +5,32 @@
  */
 package ims.view;
 
+import ims.controller.LoginController;
+import ims.controller.UserController;
+import ims.model.User;
+import java.awt.Color;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JRootPane;
+
 /**
  *
  * @author chathura
  */
 public class ChangePassword extends javax.swing.JFrame {
 
+    private LoginController loginController;
+    private UserController userController;
     /**
      * Creates new form ChangePassword
      */
     public ChangePassword() {
         initComponents();
         this.setLocationRelativeTo(null);
+        loginController = new LoginController();
+        userController = new UserController();
     }
 
     /**
@@ -110,6 +124,11 @@ public class ChangePassword extends javax.swing.JFrame {
                 txtNewPasswordReActionPerformed(evt);
             }
         });
+        txtNewPasswordRe.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNewPasswordReKeyReleased(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -119,6 +138,7 @@ public class ChangePassword extends javax.swing.JFrame {
         btnSave.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         btnSave.setForeground(new java.awt.Color(255, 255, 255));
         btnSave.setText("SAVE");
+        btnSave.setEnabled(false);
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveActionPerformed(evt);
@@ -176,25 +196,29 @@ public class ChangePassword extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(120, 120, 120)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblUserNameError, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblUserNameError, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(txtUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtOldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblOldPasswordError, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblOldPasswordError, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4)
+                        .addComponent(txtOldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(6, 6, 6)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txtNewPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNewPasswordError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblNewPasswordError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5)
+                        .addComponent(txtNewPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtNewPasswordRe, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNewPasswordReError, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblNewPasswordReError, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(txtNewPasswordRe, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -229,7 +253,37 @@ public class ChangePassword extends javax.swing.JFrame {
     }//GEN-LAST:event_txtOldPasswordActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        // TODO add your handling code here:
+        String userName = txtUserName.getText();
+        String oldPassword = txtOldPassword.getText();
+        String newPassword = txtNewPassword.getText();
+        String newPasswordRe = txtNewPasswordRe.getText();
+        try {
+            User user = loginController.getUser(userName);
+            if(user == null){
+                JOptionPane.showMessageDialog(this, "User not found","Error",JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            String password = user.getPassword();
+            if(!password.equals(oldPassword)){
+                JOptionPane.showMessageDialog(this, "Wrong password", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }else if(!newPassword.equals(newPasswordRe)){
+                JOptionPane.showMessageDialog(this, "New Password and new password re did not mach", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }else{
+                int result = userController.changePassword(userName,newPassword);
+                if(result > 0){
+                    JOptionPane.showMessageDialog(this, "Password change successfull");
+                    this.dispose();
+                    Login2 login2 = new Login2();
+                    login2.setVisible(true);
+                }else{
+                    JOptionPane.showMessageDialog(this, "Password change failed");
+                }
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(ChangePassword.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -241,6 +295,23 @@ public class ChangePassword extends javax.swing.JFrame {
     private void txtNewPasswordReActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNewPasswordReActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNewPasswordReActionPerformed
+
+    private void txtNewPasswordReKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNewPasswordReKeyReleased
+        String newPassword = txtNewPassword.getText();
+        String newPasswordRe = txtNewPasswordRe.getText();
+        
+        if(newPassword.equals(newPasswordRe)){
+            lblNewPasswordReError.setText("\u2713");
+            lblNewPasswordReError.setForeground(Color.GREEN);
+            if(!txtUserName.getText().equals("") && !txtOldPassword.getText().equals("")){
+                btnSave.setEnabled(true);
+            }
+        }else{
+            lblNewPasswordReError.setText("\u2716");
+            lblNewPasswordReError.setForeground(Color.red);
+            btnSave.setEnabled(false);
+        }
+    }//GEN-LAST:event_txtNewPasswordReKeyReleased
 
     /**
      * @param args the command line arguments
