@@ -27,7 +27,7 @@ public class CategoryController {
         ArrayList<String> categoryList = new ArrayList<>();
         
         while (resultSet.next()) {
-            categoryList.add(resultSet.getString(1));
+            categoryList.add(resultSet.getString(2));
         }
         return categoryList;
     } 
@@ -44,18 +44,27 @@ public class CategoryController {
         String lastId = getLastId();
         String substring = lastId.substring(3);
         int lastIdInt = Integer.parseInt(substring);
-        return "CAT"+lastIdInt+1;
+        return "CAT"+(lastIdInt+1);
     }
     
     private String getLastId() throws ClassNotFoundException, SQLException{
         Connection connection = DBConnection.getInstance().getConnection();
         Statement statement = connection.createStatement();
-        String sql = "select id from category desc 1 limit 1";
+        String sql = "select id from category order by id desc limit 1";
         ResultSet result = statement.executeQuery(sql);
         if(result.next()){
-            return result.getString(0);
+            return result.getString(1);
         }else{
             return "CAT000";
         }
+    }
+    
+    public String getIdByName(String name) throws ClassNotFoundException, SQLException{
+        Connection connection = DBConnection.getInstance().getConnection();
+        Statement statement = connection.createStatement();
+        String sql = "select id from category where name = '"+name+"'";
+        ResultSet result = statement.executeQuery(sql);
+        result.next();
+        return result.getString(1);
     }
 }

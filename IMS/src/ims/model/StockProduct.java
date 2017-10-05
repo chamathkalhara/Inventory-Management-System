@@ -15,26 +15,22 @@ public class StockProduct {
     private String sid;
     private double unitPrice;
     private String expDate;
-    private int qty;
+    private String recievedDate;
+    private int qtyOrdered;
+    private int qtyRecieved;
 
     public StockProduct() {
     }
 
-    public StockProduct(String id, String pid, String sid, double unitPrice, String expDate, int qty) {
+    public StockProduct(String id, String pid, String sid, double unitPrice, String expDate, String recievedDate, int qtyOrdered, int qtyRecieved) {
         this.id = id;
         this.pid = pid;
         this.sid = sid;
         this.unitPrice = unitPrice;
         this.expDate = expDate;
-        this.qty = qty;
-    }
-
-    public int getQty() {
-        return qty;
-    }
-
-    public void setQty(int qty) {
-        this.qty = qty;
+        this.recievedDate = recievedDate;
+        this.qtyOrdered = qtyOrdered;
+        this.qtyRecieved = qtyRecieved;
     }
 
     public String getId() {
@@ -76,6 +72,29 @@ public class StockProduct {
     public void setExpDate(String expDate) {
         this.expDate = expDate;
     }
-    
-    
+
+    public String getRecievedDate() {
+        return recievedDate;
+    }
+
+    public void setRecievedDate(String recievedDate) {
+        this.recievedDate = recievedDate;
+    }
+
+    public int getQtyOrdered() {
+        return qtyOrdered;
+    }
+
+    public void setQtyOrdered(int qtyOrdered) {
+        this.qtyOrdered = qtyOrdered;
+    }
+
+    public int getQtyRecieved() {
+        return qtyRecieved;
+    }
+
+    public void setQtyRecieved(int qtyRecieved) {
+        this.qtyRecieved = qtyRecieved;
+    }
+
 }

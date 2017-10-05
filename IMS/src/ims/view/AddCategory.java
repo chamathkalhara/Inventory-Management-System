@@ -8,6 +8,8 @@ package ims.view;
 import ims.controller.CategoryController;
 import ims.model.Category;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -27,10 +29,13 @@ public class AddCategory extends javax.swing.JInternalFrame {
         initComponents();
         categoryController = new CategoryController();
         try {
-            String[] s = null;
-            lstCategory.setListData(categoryController.getAllCategoryNames().toArray(s));
+            ArrayList<String> allCategoryNames = categoryController.getAllCategoryNames();
+            Object[] toArray = allCategoryNames.toArray();
+
+            String stringArray[] = Arrays.asList(toArray).toArray(new String[0]);
+            lstCategory.setListData(stringArray);
         } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(AddCategory.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -298,17 +303,21 @@ public class AddCategory extends javax.swing.JInternalFrame {
                 int result = categoryController.addCategory(category);
                 if (result > 0) {
                     JOptionPane.showMessageDialog(this, "New Category successfully added", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    String[] s = null;
-                    lstCategory.setListData(categoryController.getAllCategoryNames().toArray(s));
+                    ArrayList<String> allCategoryNames = categoryController.getAllCategoryNames();
+                    Object[] toArray = allCategoryNames.toArray();
+
+                    String stringArray[] = Arrays.asList(toArray).toArray(new String[0]);
+                    lstCategory.setListData(stringArray);
                     txtNewCategory.setText("");
-                }else{
+                    txtNewCategory.requestFocus();
+                } else {
                     JOptionPane.showMessageDialog(this, "Category added failed", "Failed", JOptionPane.ERROR_MESSAGE);
                     txtNewCategory.setText("");
                 }
             } catch (ClassNotFoundException | SQLException ex) {
-                Logger.getLogger(AddCategory.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "Cateory name can't be null", "Error", JOptionPane.INFORMATION_MESSAGE);
             txtNewCategory.requestFocus();
         }

@@ -27,7 +27,7 @@ public class BrandController {
         ArrayList<String> brandList = new ArrayList<>();
         
         while (resultSet.next()) {
-            brandList.add(resultSet.getString(1));
+            brandList.add(resultSet.getString(2));
         }
         return brandList;
     } 
@@ -44,18 +44,27 @@ public class BrandController {
         String lastId = getLastId();
         String substring = lastId.substring(3);
         int lastIdInt = Integer.parseInt(substring);
-        return "BND"+lastIdInt+1;
+        return "BND"+(lastIdInt+1);
     }
     
     private String getLastId() throws ClassNotFoundException, SQLException{
         Connection connection = DBConnection.getInstance().getConnection();
         Statement statement = connection.createStatement();
-        String sql = "select id from brand desc 1 limit 1";
+        String sql = "select id from brand order by id desc limit 1";
         ResultSet result = statement.executeQuery(sql);
         if(result.next()){
-            return result.getString(0);
+            return result.getString(1);
         }else{
-            return "BND000";
+            return "BND00";
         }
+    }
+    
+    public String getIdByName(String name) throws ClassNotFoundException, SQLException{
+        Connection connection = DBConnection.getInstance().getConnection();
+        Statement statement = connection.createStatement();
+        String sql = "select id from brand where name = '"+name+"'";
+        ResultSet result = statement.executeQuery(sql);
+        result.next();
+        return result.getString(1);
     }
 }

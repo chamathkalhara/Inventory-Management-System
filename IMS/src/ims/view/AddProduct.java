@@ -10,11 +10,15 @@ import ims.controller.BrandController;
 import ims.controller.CategoryController;
 import ims.controller.ProductController;
 import ims.controller.ProductTypeController;
+import ims.model.Product;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -26,32 +30,53 @@ public class AddProduct extends javax.swing.JInternalFrame {
     private BrandController brandController;
     private CategoryController categoryController;
     private ProductTypeController productTypeController;
-    private ComboSearch comboSearch = new ComboSearch();
+    private DefaultTableModel dtm = null;
+    private Vector dtmVector = null;
     
     /**
      * Creates new form AddProduct
      */
     public AddProduct() {
         initComponents();
+        productController = new ProductController();
+        brandController = new BrandController();
+        categoryController = new CategoryController();
+        productTypeController = new ProductTypeController();
+        
         try {
             String newId = productController.getNewId();
-            txtProductName.setText(newId);
-            
+            txtProductId.setText(newId);
+
             ArrayList<String> allBrandNames = brandController.getAllBrandNames();
             cmbBrandName.setModel(new DefaultComboBoxModel(allBrandNames.toArray()));
-            
+
             ArrayList<String> allCategoryNames = categoryController.getAllCategoryNames();
             cmbCategoryName.setModel(new DefaultComboBoxModel(allCategoryNames.toArray()));
-            
+
             ArrayList<String> allProductTypeNames = productTypeController.getAllProductTypeNames();
             cmbProductType.setModel(new DefaultComboBoxModel(allProductTypeNames.toArray()));
+
+            ComboSearch comboSearch1 = new ComboSearch();
+            comboSearch1.search(cmbBrandName, true, "No brands found");
+            ComboSearch comboSearch2 = new ComboSearch();
+            comboSearch2.search(cmbCategoryName, true, "No category found");
+            ComboSearch comboSearch3 = new ComboSearch();
+            comboSearch3.search(cmbProductType, true, "No product type found");
+
+            cmbBrandName.setSelectedIndex(-1);
+            cmbCategoryName.setSelectedIndex(-1);
+            cmbProductType.setSelectedIndex(-1);
+
+            ArrayList<Product> allProducts = productController.getAllProducts();
+            dtm = (DefaultTableModel) table.getModel();
+            for (Product product : allProducts) {
+                dtm.addRow(new Object[]{product.getId(), product.getName(), product.getCid(), product.getBid(), product.getPtid(), product.getVolume()});
+            }
             
-            comboSearch.search(cmbBrandName, true, "No brands found");
-            comboSearch.search(cmbCategoryName, true, "No category found");
-            comboSearch.search(cmbProductType, true, "No product type found");
-            
+            dtmVector = (Vector)dtm.getDataVector().clone();
+
         } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(AddProduct.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -81,12 +106,11 @@ public class AddProduct extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
         txtSearchProduct = new javax.swing.JTextField();
-        btnSearchProduct = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
         btnPrint = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         cmbBrandName = new javax.swing.JComboBox<>();
-        txtProductId1 = new javax.swing.JTextField();
+        txtProductId = new javax.swing.JTextField();
 
         setClosable(true);
 
@@ -140,12 +164,11 @@ public class AddProduct extends javax.swing.JInternalFrame {
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel8.setText("Safety Stock Level :");
 
-        txtProductName.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        txtProductName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
-        txtVolume.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        txtVolume.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
-        txtSafetyStockLevel.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        txtSafetyStockLevel.setEnabled(false);
+        txtSafetyStockLevel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         txtSafetyStockLevel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtSafetyStockLevelActionPerformed(evt);
@@ -153,7 +176,7 @@ public class AddProduct extends javax.swing.JInternalFrame {
         });
 
         cmbCategoryName.setEditable(true);
-        cmbCategoryName.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        cmbCategoryName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         cmbCategoryName.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 cmbCategoryNameKeyReleased(evt);
@@ -161,7 +184,7 @@ public class AddProduct extends javax.swing.JInternalFrame {
         });
 
         cmbProductType.setEditable(true);
-        cmbProductType.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        cmbProductType.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         cmbProductType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbProductTypeActionPerformed(evt);
@@ -182,7 +205,7 @@ public class AddProduct extends javax.swing.JInternalFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false
@@ -198,19 +221,15 @@ public class AddProduct extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(table);
 
-        txtSearchProduct.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        txtSearchProduct.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         txtSearchProduct.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtSearchProductActionPerformed(evt);
             }
         });
-
-        btnSearchProduct.setBackground(new java.awt.Color(102, 102, 255));
-        btnSearchProduct.setForeground(new java.awt.Color(255, 255, 255));
-        btnSearchProduct.setText("Search Product");
-        btnSearchProduct.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSearchProductActionPerformed(evt);
+        txtSearchProduct.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchProductKeyReleased(evt);
             }
         });
 
@@ -228,79 +247,83 @@ public class AddProduct extends javax.swing.JInternalFrame {
         btnPrint.setText("PRINT");
 
         btnCancel.setBackground(new java.awt.Color(255, 0, 51));
+        btnCancel.setForeground(new java.awt.Color(255, 255, 255));
         btnCancel.setText("CANCEL");
         btnCancel.setActionCommand("CLEAR");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
         cmbBrandName.setEditable(true);
-        cmbBrandName.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        cmbBrandName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         cmbBrandName.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 cmbBrandNameKeyReleased(evt);
             }
         });
 
-        txtProductId1.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        txtProductId1.setEnabled(false);
+        txtProductId.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txtProductId.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(68, 68, 68)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(txtProductId, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnSave, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel4)
+                                            .addComponent(jLabel2)
+                                            .addComponent(jLabel6))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                            .addGap(53, 53, 53)
+                                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel6))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addGap(53, 53, 53)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtSafetyStockLevel, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(cmbCategoryName, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cmbProductType, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtVolume, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cmbBrandName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtProductId1)))
-                            .addComponent(txtProductName, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txtSafetyStockLevel, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(cmbCategoryName, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(cmbProductType, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(txtVolume, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(cmbBrandName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addComponent(txtProductName, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 556, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(46, 46, 46)
-                                .addComponent(btnPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(txtSearchProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnSearchProduct)
-                        .addGap(18, 18, 18))))
+                    .addComponent(txtSearchProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 556, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(46, 46, 46)
+                            .addComponent(btnPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(27, 27, 27))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtSearchProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSearchProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16)
+                .addGap(24, 24, 24)
+                .addComponent(txtSearchProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -312,7 +335,7 @@ public class AddProduct extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(txtProductId1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtProductId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -323,23 +346,23 @@ public class AddProduct extends javax.swing.JInternalFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(txtProductName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(cmbBrandName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(14, 14, 14)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
                             .addComponent(cmbProductType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtVolume, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtSafetyStockLevel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(134, Short.MAX_VALUE))
+                .addContainerGap(136, Short.MAX_VALUE))
         );
 
         pack();
@@ -348,10 +371,6 @@ public class AddProduct extends javax.swing.JInternalFrame {
     private void txtSearchProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchProductActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSearchProductActionPerformed
-
-    private void btnSearchProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchProductActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSearchProductActionPerformed
 
     private void cmbProductTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbProductTypeActionPerformed
         // TODO add your handling code here:
@@ -362,27 +381,90 @@ public class AddProduct extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtSafetyStockLevelActionPerformed
 
     private void cmbBrandNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmbBrandNameKeyReleased
-        
+
     }//GEN-LAST:event_cmbBrandNameKeyReleased
 
     private void cmbCategoryNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmbCategoryNameKeyReleased
-        
+
     }//GEN-LAST:event_cmbCategoryNameKeyReleased
 
     private void cmbProductTypeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmbProductTypeKeyReleased
-        
+
     }//GEN-LAST:event_cmbProductTypeKeyReleased
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        
+        String pid = txtProductId.getText();
+        String name = txtProductName.getText();
+        String cid = String.valueOf(cmbCategoryName.getSelectedItem());
+        String bid = String.valueOf(cmbBrandName.getSelectedItem());
+        String ptid = String.valueOf(cmbProductType.getSelectedItem());
+
+        if (!name.equals("") && !cid.equals("") && !bid.equals("") && !ptid.equals("") && !txtVolume.getText().equals("") && !txtSafetyStockLevel.getText().equals("")) {
+
+            int volume = Integer.valueOf(txtVolume.getText());
+            int safetyStock = Integer.valueOf(txtSafetyStockLevel.getText());
+
+            Product product1 = new Product(pid, name, cid, bid, ptid, volume, safetyStock);
+            try {
+                int result = productController.addProduct(product1);
+                if (result > 0) {
+                    JOptionPane.showMessageDialog(this, "Product added successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    txtProductId.setText(productController.getNewId());
+                    txtProductName.setText("");
+                    cmbBrandName.setSelectedIndex(-1);
+                    cmbCategoryName.setSelectedIndex(-1);
+                    cmbProductType.setSelectedIndex(-1);
+                    txtVolume.setText("");
+                    txtSafetyStockLevel.setText("");
+
+                    ArrayList<Product> allProducts = productController.getAllProducts();
+                    dtm = (DefaultTableModel) table.getModel();
+                    dtm.setRowCount(0);
+                    for (Product product : allProducts) {
+                        dtm.addRow(new Object[]{product.getId(), product.getName(), product.getCid(), product.getBid(), product.getPtid(), product.getVolume()});
+                    }
+                    dtmVector = (Vector) dtm.getDataVector().clone();
+                }else{
+                    JOptionPane.showMessageDialog(this, "Product added failed", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (SQLException | ClassNotFoundException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Fill all the fields first", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnSaveActionPerformed
 
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void txtSearchProductKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchProductKeyReleased
+        searchTableContents(txtSearchProduct.getText());
+    }//GEN-LAST:event_txtSearchProductKeyReleased
+
+    public void searchTableContents(String searchString) {
+        DefaultTableModel currtableModel = (DefaultTableModel) table.getModel();
+        //To empty the table before search
+        currtableModel.setRowCount(0);
+        //To search for contents from original table content
+        for (Object rows : dtmVector) {
+            Vector rowVector = (Vector) rows;
+            for (Object column : rowVector) {
+                if (column.toString().toLowerCase().contains(searchString.toLowerCase())) {
+                    //content found so adding to table
+                    currtableModel.addRow(rowVector);
+                    break;
+                }
+            }
+
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnPrint;
     private javax.swing.JButton btnSave;
-    private javax.swing.JButton btnSearchProduct;
     private javax.swing.JComboBox<String> cmbBrandName;
     private javax.swing.JComboBox<String> cmbCategoryName;
     private javax.swing.JComboBox<String> cmbProductType;
@@ -397,7 +479,7 @@ public class AddProduct extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable table;
-    private javax.swing.JTextField txtProductId1;
+    private javax.swing.JTextField txtProductId;
     private javax.swing.JTextField txtProductName;
     private javax.swing.JTextField txtSafetyStockLevel;
     private javax.swing.JTextField txtSearchProduct;

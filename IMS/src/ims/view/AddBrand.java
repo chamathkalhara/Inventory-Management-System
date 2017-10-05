@@ -8,6 +8,8 @@ package ims.view;
 import ims.controller.BrandController;
 import ims.model.Brand;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -19,6 +21,7 @@ import javax.swing.JOptionPane;
 public class AddBrand extends javax.swing.JInternalFrame {
 
     private BrandController brandController;
+
     /**
      * Creates new form AddBrand
      */
@@ -26,10 +29,13 @@ public class AddBrand extends javax.swing.JInternalFrame {
         initComponents();
         brandController = new BrandController();
         try {
-            String[] s = null;
-            lstBrand.setListData(brandController.getAllBrandNames().toArray(s));
+            ArrayList<String> allBrandNames = brandController.getAllBrandNames();
+            Object[] toArray = allBrandNames.toArray();
+
+            String stringArray[] = Arrays.asList(toArray).toArray(new String[0]);
+            lstBrand.setListData(stringArray);
         } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(AddCategory.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -173,17 +179,21 @@ public class AddBrand extends javax.swing.JInternalFrame {
                 int result = brandController.addBrandList(brand);
                 if (result > 0) {
                     JOptionPane.showMessageDialog(this, "New Brand successfully added", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    String[] s = null;
-                    lstBrand.setListData(brandController.getAllBrandNames().toArray(s));
+                    ArrayList<String> allBrandNames = brandController.getAllBrandNames();
+                    Object[] toArray = allBrandNames.toArray();
+
+                    String stringArray[] = Arrays.asList(toArray).toArray(new String[0]);
+                    lstBrand.setListData(stringArray);
                     txtNewBrand.setText("");
-                }else{
+                    txtNewBrand.requestFocus();
+                } else {
                     JOptionPane.showMessageDialog(this, "Brand added failed", "Failed", JOptionPane.ERROR_MESSAGE);
                     txtNewBrand.setText("");
                 }
             } catch (ClassNotFoundException | SQLException ex) {
-                Logger.getLogger(AddCategory.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "Brand name can't be null", "Error", JOptionPane.INFORMATION_MESSAGE);
             txtNewBrand.requestFocus();
         }

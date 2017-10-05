@@ -5,11 +5,11 @@
  */
 package ims.view;
 
-import ims.controller.BrandController;
 import ims.controller.ProductTypeController;
-import ims.model.Brand;
 import ims.model.ProductType;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -21,7 +21,7 @@ import javax.swing.JOptionPane;
 public class AddProductType extends javax.swing.JInternalFrame {
 
     private ProductTypeController productTypeController;
-    
+
     /**
      * Creates new form AddProductType
      */
@@ -29,10 +29,13 @@ public class AddProductType extends javax.swing.JInternalFrame {
         initComponents();
         productTypeController = new ProductTypeController();
         try {
-            String[] s = null;
-            lstProductType.setListData(productTypeController.getAllProductTypeNames().toArray(s));
+            ArrayList<String> allProductTypeNames = productTypeController.getAllProductTypeNames();
+            Object[] toArray = allProductTypeNames.toArray();
+
+            String stringArray[] = Arrays.asList(toArray).toArray(new String[0]);
+            lstProductType.setListData(stringArray);
         } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(AddCategory.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -178,17 +181,21 @@ public class AddProductType extends javax.swing.JInternalFrame {
                 int result = productTypeController.addproductTypeList(productType);
                 if (result > 0) {
                     JOptionPane.showMessageDialog(this, "New Product Type successfully added", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    String[] s = null;
-                    lstProductType.setListData(productTypeController.getAllProductTypeNames().toArray(s));
+                    ArrayList<String> allProductTypeNames = productTypeController.getAllProductTypeNames();
+                    Object[] toArray = allProductTypeNames.toArray();
+
+                    String stringArray[] = Arrays.asList(toArray).toArray(new String[0]);
+                    lstProductType.setListData(stringArray);
                     txtNewProductType.setText("");
-                }else{
+                    txtNewProductType.requestFocus();
+                } else {
                     JOptionPane.showMessageDialog(this, "Product Type added failed", "Failed", JOptionPane.ERROR_MESSAGE);
                     txtNewProductType.setText("");
                 }
             } catch (ClassNotFoundException | SQLException ex) {
-                Logger.getLogger(AddCategory.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "Product Type name can't be null", "Error", JOptionPane.INFORMATION_MESSAGE);
             txtNewProductType.requestFocus();
         }
