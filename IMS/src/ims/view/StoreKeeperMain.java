@@ -40,7 +40,6 @@ public class StoreKeeperMain extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         btnAddStock = new javax.swing.JButton();
         btnIssueIFRC = new javax.swing.JButton();
-        btnIssueinrc = new javax.swing.JButton();
         btnReturnStock = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         btnPurchaseOrder = new javax.swing.JButton();
@@ -170,16 +169,6 @@ public class StoreKeeperMain extends javax.swing.JFrame {
             }
         });
 
-        btnIssueinrc.setBackground(new java.awt.Color(255, 102, 102));
-        btnIssueinrc.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnIssueinrc.setForeground(new java.awt.Color(255, 255, 255));
-        btnIssueinrc.setText("Issue Inventory (NRC)");
-        btnIssueinrc.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIssueinrcActionPerformed(evt);
-            }
-        });
-
         btnReturnStock.setBackground(new java.awt.Color(255, 102, 102));
         btnReturnStock.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnReturnStock.setForeground(new java.awt.Color(255, 255, 255));
@@ -225,7 +214,7 @@ public class StoreKeeperMain extends javax.swing.JFrame {
         btnAddRegisteredCustomer.setBackground(new java.awt.Color(137, 34, 34));
         btnAddRegisteredCustomer.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnAddRegisteredCustomer.setForeground(new java.awt.Color(255, 255, 255));
-        btnAddRegisteredCustomer.setText("Add Registered Customer");
+        btnAddRegisteredCustomer.setText("Add Customer");
         btnAddRegisteredCustomer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddRegisteredCustomerActionPerformed(evt);
@@ -269,24 +258,26 @@ public class StoreKeeperMain extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(28, 28, 28)
-                                .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel4)
-                            .addComponent(btnUpdateSafetyStockLevel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnAddProduct, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnAddProductType, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnAddBrand, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnAddCategory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnAddStock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnIssueIFRC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnReturnStock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnIssueinrc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel4)
+                                    .addComponent(btnUpdateSafetyStockLevel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnAddProduct, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnAddProductType, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnAddBrand, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnAddCategory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnAddStock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnIssueIFRC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnReturnStock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(49, 49, 49)
+                        .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -336,11 +327,13 @@ public class StoreKeeperMain extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(229, 229, 229)
                                 .addComponent(jLabel4)
-                                .addGap(252, 252, 252)
+                                .addGap(121, 121, 121)
+                                .addComponent(btnReturnStock, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(48, 48, 48)
                                 .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(67, Short.MAX_VALUE))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                                 .addComponent(dskPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(14, 14, 14))))
                     .addGroup(layout.createSequentialGroup()
@@ -357,10 +350,6 @@ public class StoreKeeperMain extends javax.swing.JFrame {
                         .addComponent(btnAddStock, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnIssueIFRC, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnIssueinrc, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnReturnStock, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
 
@@ -453,14 +442,6 @@ public class StoreKeeperMain extends javax.swing.JFrame {
         iifrc.show();
     }//GEN-LAST:event_btnIssueIFRCActionPerformed
 
-    private void btnIssueinrcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIssueinrcActionPerformed
-        dskPane.removeAll();
-        dskPane.repaint();
-        IssueInventoryFormNonRegisteredCustomer iifnrc = new IssueInventoryFormNonRegisteredCustomer();
-        dskPane.add(iifnrc);
-        iifnrc.show();
-    }//GEN-LAST:event_btnIssueinrcActionPerformed
-
     private void btnReturnStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnStockActionPerformed
         dskPane.removeAll();
         dskPane.repaint();
@@ -522,7 +503,6 @@ public class StoreKeeperMain extends javax.swing.JFrame {
     private javax.swing.JButton btnAddSupplier;
     private javax.swing.JButton btnGoodsReceived;
     private javax.swing.JButton btnIssueIFRC;
-    private javax.swing.JButton btnIssueinrc;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnPurchaseOrder;
     private javax.swing.JButton btnReturnStock;

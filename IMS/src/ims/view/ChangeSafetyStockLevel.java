@@ -11,8 +11,6 @@ import ims.model.Product;
 import java.awt.event.ItemEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
@@ -37,7 +35,7 @@ public class ChangeSafetyStockLevel extends javax.swing.JInternalFrame {
 
             ComboSearch comboSearch1 = new ComboSearch();
             comboSearch1.search(cmbProductId, true, "No Product found");
-            
+
             cmbProductId.setSelectedIndex(-1);
         } catch (ClassNotFoundException | SQLException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
@@ -224,15 +222,15 @@ public class ChangeSafetyStockLevel extends javax.swing.JInternalFrame {
 
     private void cmbProductIdItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbProductIdItemStateChanged
         if (evt.getStateChange() == ItemEvent.SELECTED) {
-          String productId = String.valueOf(evt.getItem());
-        try {
-            Product product = productController.getProduct(productId);
-            txtProductName.setText(product.getName());
-            txtOldSafetyStock.setText(String.valueOf(product.getSaftyStock()));
-        } catch (ClassNotFoundException | SQLException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+            String productId = String.valueOf(evt.getItem());
+            try {
+                Product product = productController.getProduct(productId);
+                txtProductName.setText(product.getName());
+                txtOldSafetyStock.setText(String.valueOf(product.getSaftyStock()));
+            } catch (ClassNotFoundException | SQLException ex) {
+                JOptionPane.showMessageDialog(this, "please select a item correcly", "Exception", JOptionPane.ERROR_MESSAGE);
+            }
         }
-       }
     }//GEN-LAST:event_cmbProductIdItemStateChanged
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
@@ -261,7 +259,7 @@ public class ChangeSafetyStockLevel extends javax.swing.JInternalFrame {
                     txtOldSafetyStock.setText("");
                     txtNewSafetyStock.setText("");
                     cmbProductId.requestFocus();
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(this, "Update filed", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } catch (ClassNotFoundException | SQLException ex) {
@@ -273,8 +271,8 @@ public class ChangeSafetyStockLevel extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void cmbProductIdPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cmbProductIdPropertyChange
-        
-        
+
+
     }//GEN-LAST:event_cmbProductIdPropertyChange
 
 

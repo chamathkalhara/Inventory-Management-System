@@ -6,7 +6,6 @@
 package ims.controller;
 
 import ims.db.DBConnection;
-import ims.model.Product;
 import ims.model.StockProduct;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -64,6 +63,28 @@ public class StockProductController {
         return productList;
     }
     
+    public ArrayList<StockProduct> getStockProductByPid(String pid) throws ClassNotFoundException, SQLException{
+        Connection connection = DBConnection.getInstance().getConnection();
+        Statement statement = connection.createStatement();
+        String sql = "select * from stockProducts where pid = '"+pid+"'";
+        ResultSet resultSet = statement.executeQuery(sql);
+        ArrayList<StockProduct> productList = new ArrayList<>();
+        
+        while (resultSet.next()) {
+            String id = resultSet.getString(1);
+            String product = resultSet.getString(2);
+            String supplier = resultSet.getString(3);
+            double unitPrice = resultSet.getDouble(4);
+            String expDate = resultSet.getString(5);
+            String recievedDate = resultSet.getString(6);
+            int qtyOrdered = resultSet.getInt(7);
+            int qtyRecieved = resultSet.getInt(8);
+            StockProduct stockProduct = new StockProduct(id, product, supplier, unitPrice, expDate, recievedDate, qtyOrdered, qtyRecieved);
+            productList.add(stockProduct);
+        }
+        return productList;
+    }
+    
     public int addStockProduct(StockProduct product) throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getInstance().getConnection();
         Statement statement = connection.createStatement();
@@ -79,4 +100,5 @@ public class StockProductController {
         int result = statement.executeUpdate(sql);
         return result;
     }
+
 }
