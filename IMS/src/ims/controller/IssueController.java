@@ -18,7 +18,7 @@ import java.sql.Statement;
  */
 public class IssueController {
     
-    private ProductController productController = new ProductController();
+    private StockProductController stockProductController;
     
     public String getNewId() throws ClassNotFoundException, SQLException{
         String lastId = getLastId();
@@ -42,8 +42,9 @@ public class IssueController {
     public void addIssueInventryRegistered(IssueRegistered issue) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getInstance().getConnection();
         Statement statement = connection.createStatement();
-        String sql = "insert into issueRegistered values ('" + issue.getId() + "','" + issue.getCid()+ "','" + issue.getPid()+ "','" + issue.getOrderDate()+ "'," + issue.getQty()+ ",'" + issue.getExpDate()+ "')";
+        String sql = "insert into issueRegistered values ('" + issue.getId() + "','" + issue.getCid()+ "','" + issue.getPid()+ "','" + issue.getOrderDate()+ "'," + issue.getQty()+ ")";
         statement.executeUpdate(sql);
-        productController.updateVolume(issue.getQty());
+        //productController.updateVolume(issue.getQty());
+        stockProductController.updateStock(issue.getQty(),"reduce",issue.getPid());
     }
 }

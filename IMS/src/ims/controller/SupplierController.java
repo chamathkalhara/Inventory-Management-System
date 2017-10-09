@@ -32,6 +32,19 @@ public class SupplierController {
         return supplierList;
     } 
     
+    public ArrayList<String> getAllSupplierId() throws ClassNotFoundException, SQLException{
+        Connection connection = DBConnection.getInstance().getConnection();
+        Statement statement = connection.createStatement();
+        String sql = "select * from supplier";
+        ResultSet resultSet = statement.executeQuery(sql);
+        ArrayList<String> supplierList = new ArrayList<>();
+        
+        while (resultSet.next()) {
+            supplierList.add(resultSet.getString(1));
+        }
+        return supplierList;
+    } 
+    
     public String getIdByName(String name) throws ClassNotFoundException, SQLException{
         Connection connection = DBConnection.getInstance().getConnection();
         Statement statement = connection.createStatement();

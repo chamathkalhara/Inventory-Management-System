@@ -15,27 +15,19 @@ public class Product {
     private String cid;
     private String bid;
     private String ptid;
-    private int volume;
+    private String sid;
     private int saftyStock;
 
     public Product() {
     }
 
-    public Product(String id, String name, String cid, String bid, String ptid, int volume, int saftyStock) {
+    public Product(String id, String name, String cid, String bid, String ptid, String sid, int saftyStock) {
         this.id = id;
         this.name = name;
         this.cid = cid;
         this.bid = bid;
         this.ptid = ptid;
-        this.volume = volume;
-        this.saftyStock = saftyStock;
-    }
-
-    public int getSaftyStock() {
-        return saftyStock;
-    }
-
-    public void setSaftyStock(int saftyStock) {
+        this.sid = sid;
         this.saftyStock = saftyStock;
     }
 
@@ -79,13 +71,21 @@ public class Product {
         this.ptid = ptid;
     }
 
-    public int getVolume() {
-        return volume;
+    public String getSid() {
+        return sid;
     }
 
-    public void setVolume(int volume) {
-        this.volume = volume;
+    public void setSid(String sid) {
+        this.sid = sid;
     }
-    
+
+    public int getSaftyStock() {
+        return saftyStock;
+    }
+
+    public void setSaftyStock(int saftyStock) {
+        this.saftyStock = saftyStock;
+    }
+
     
 }

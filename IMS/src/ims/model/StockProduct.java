@@ -12,25 +12,19 @@ package ims.model;
 public class StockProduct {
     private String id;
     private String pid;
-    private String sid;
     private double unitPrice;
     private String expDate;
-    private String recievedDate;
-    private int qtyOrdered;
-    private int qtyRecieved;
+    private int qtyAvailable;
 
     public StockProduct() {
     }
 
-    public StockProduct(String id, String pid, String sid, double unitPrice, String expDate, String recievedDate, int qtyOrdered, int qtyRecieved) {
+    public StockProduct(String id, String pid, double unitPrice, String expDate, int qtyAvailable) {
         this.id = id;
         this.pid = pid;
-        this.sid = sid;
         this.unitPrice = unitPrice;
         this.expDate = expDate;
-        this.recievedDate = recievedDate;
-        this.qtyOrdered = qtyOrdered;
-        this.qtyRecieved = qtyRecieved;
+        this.qtyAvailable = qtyAvailable;
     }
 
     public String getId() {
@@ -49,14 +43,6 @@ public class StockProduct {
         this.pid = pid;
     }
 
-    public String getSid() {
-        return sid;
-    }
-
-    public void setSid(String sid) {
-        this.sid = sid;
-    }
-
     public double getUnitPrice() {
         return unitPrice;
     }
@@ -73,28 +59,13 @@ public class StockProduct {
         this.expDate = expDate;
     }
 
-    public String getRecievedDate() {
-        return recievedDate;
+    public int getQtyAvailable() {
+        return qtyAvailable;
     }
 
-    public void setRecievedDate(String recievedDate) {
-        this.recievedDate = recievedDate;
+    public void setQtyAvailable(int qtyAvailable) {
+        this.qtyAvailable = qtyAvailable;
     }
 
-    public int getQtyOrdered() {
-        return qtyOrdered;
-    }
-
-    public void setQtyOrdered(int qtyOrdered) {
-        this.qtyOrdered = qtyOrdered;
-    }
-
-    public int getQtyRecieved() {
-        return qtyRecieved;
-    }
-
-    public void setQtyRecieved(int qtyRecieved) {
-        this.qtyRecieved = qtyRecieved;
-    }
-
+    
 }

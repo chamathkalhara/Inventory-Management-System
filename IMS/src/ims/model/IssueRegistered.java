@@ -16,18 +16,16 @@ public class IssueRegistered {
     private String pid;
     private String orderDate;
     private int qty;
-    private String expDate;
 
     public IssueRegistered() {
     }
 
-    public IssueRegistered(String id, String cid, String pid, String orderDate, int qty, String expDate) {
+    public IssueRegistered(String id, String cid, String pid, String orderDate, int qty) {
         this.id = id;
         this.cid = cid;
         this.pid = pid;
         this.orderDate = orderDate;
         this.qty = qty;
-        this.expDate = expDate;
     }
 
     public String getId() {
@@ -68,14 +66,6 @@ public class IssueRegistered {
 
     public void setQty(int qty) {
         this.qty = qty;
-    }
-
-    public String getExpDate() {
-        return expDate;
-    }
-
-    public void setExpDate(String expDate) {
-        this.expDate = expDate;
     }
 
     

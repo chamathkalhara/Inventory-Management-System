@@ -251,7 +251,7 @@ public class ChangeSafetyStockLevel extends javax.swing.JInternalFrame {
             int newStock = Integer.valueOf(txtNewSafetyStock.getText());
 
             try {
-                int result = productController.changeSafetyStock(new Product(id, "", "", "", "", 0, newStock));
+                int result = productController.changeSafetyStock(new Product(id, "", "", "", "", "", newStock));
                 if (result > 0) {
                     JOptionPane.showMessageDialog(this, "Update success", "success", JOptionPane.INFORMATION_MESSAGE);
                     cmbProductId.setSelectedIndex(-1);

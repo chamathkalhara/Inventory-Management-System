@@ -18,8 +18,6 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -68,7 +66,7 @@ public class IssueInventoryFormRegisteredCustomer extends javax.swing.JInternalF
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String curDate = sdf.format(date);
             txtSalesOrderDate.setText(curDate);
-            
+
             btnIssue.setEnabled(false);
 
         } catch (ClassNotFoundException | SQLException ex) {
@@ -347,17 +345,14 @@ public class IssueInventoryFormRegisteredCustomer extends javax.swing.JInternalF
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(cmbCustomerId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 29, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtCustomerName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel7)
+                        .addComponent(cmbCustomerId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtCustomerName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel10)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -399,20 +394,19 @@ public class IssueInventoryFormRegisteredCustomer extends javax.swing.JInternalF
         String id = txtSalesOrderId.getText();
         String cid = String.valueOf(cmbCustomerId.getSelectedItem());
         String oDate = txtSalesOrderDate.getText();
-        
-        for(int i = 0; i < count ; i++){
+
+        for (int i = 0; i < count; i++) {
             try {
                 String productId = String.valueOf(table2.getValueAt(i, 0));
                 Integer qty = Integer.valueOf(String.valueOf(table2.getValueAt(i, 2)));
-                String expDate = String.valueOf(table2.getValueAt(i, 3));
-                IssueRegistered issueRegistered = new IssueRegistered(id, cid, productId, oDate, qty, expDate);
+                IssueRegistered issueRegistered = new IssueRegistered(id, cid, productId, oDate, qty);
                 issueController.addIssueInventryRegistered(issueRegistered);
-                
+
                 JOptionPane.showMessageDialog(this, "Order issued successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-                
+
                 dtm1.setRowCount(0);
                 dtm2.setRowCount(0);
-                
+
                 txtSalesOrderId.setText(issueController.getNewId());
                 txtCustomerName.setText("");
                 cmbCustomerId.setSelectedIndex(-1);
@@ -452,7 +446,7 @@ public class IssueInventoryFormRegisteredCustomer extends javax.swing.JInternalF
                 btnIssue.setEnabled(true);
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Add Required qty","Error",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Add Required qty", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -464,10 +458,9 @@ public class IssueInventoryFormRegisteredCustomer extends javax.swing.JInternalF
                 dtm1 = (DefaultTableModel) table1.getModel();
 
                 dtm1.setRowCount(0);
-                ArrayList<StockProduct> stockProducts = stockProductController.getStockProductByPid(productId);
-                for (StockProduct sp : stockProducts) {
-                    dtm1.addRow(new Object[]{product.getId(), product.getName(), product.getVolume(), sp.getExpDate(), sp.getUnitPrice()});
-                }
+                StockProduct stockProducts = stockProductController.getStockProductByPid(productId);
+
+                dtm1.addRow(new Object[]{product.getId(), product.getName(), stockProducts.getQtyAvailable(), stockProducts.getExpDate(), stockProducts.getUnitPrice()});
 
             } catch (ClassNotFoundException | SQLException ex) {
                 JOptionPane.showMessageDialog(this, "please select a item correcly", "Exception", JOptionPane.ERROR_MESSAGE);

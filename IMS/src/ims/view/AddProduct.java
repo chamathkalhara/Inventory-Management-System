@@ -10,12 +10,11 @@ import ims.controller.BrandController;
 import ims.controller.CategoryController;
 import ims.controller.ProductController;
 import ims.controller.ProductTypeController;
+import ims.controller.SupplierController;
 import ims.model.Product;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -30,6 +29,7 @@ public class AddProduct extends javax.swing.JInternalFrame {
     private BrandController brandController;
     private CategoryController categoryController;
     private ProductTypeController productTypeController;
+    private SupplierController supplierController;
     private DefaultTableModel dtm = null;
     private Vector dtmVector = null;
     
@@ -42,6 +42,7 @@ public class AddProduct extends javax.swing.JInternalFrame {
         brandController = new BrandController();
         categoryController = new CategoryController();
         productTypeController = new ProductTypeController();
+        supplierController = new SupplierController();
         
         try {
             String newId = productController.getNewId();
@@ -55,6 +56,9 @@ public class AddProduct extends javax.swing.JInternalFrame {
 
             ArrayList<String> allProductTypeNames = productTypeController.getAllProductTypeNames();
             cmbProductType.setModel(new DefaultComboBoxModel(allProductTypeNames.toArray()));
+            
+            ArrayList<String> allSupplierID = supplierController.getAllSupplierId();
+            cmbSupplierId.setModel(new DefaultComboBoxModel(allSupplierID.toArray()));
 
             ComboSearch comboSearch1 = new ComboSearch();
             comboSearch1.search(cmbBrandName, true, "No brands found");
@@ -62,15 +66,18 @@ public class AddProduct extends javax.swing.JInternalFrame {
             comboSearch2.search(cmbCategoryName, true, "No category found");
             ComboSearch comboSearch3 = new ComboSearch();
             comboSearch3.search(cmbProductType, true, "No product type found");
+            ComboSearch comboSearch4 = new ComboSearch();
+            comboSearch4.search(cmbProductType, true, "No suppliers found");
 
             cmbBrandName.setSelectedIndex(-1);
             cmbCategoryName.setSelectedIndex(-1);
             cmbProductType.setSelectedIndex(-1);
+            cmbSupplierId.setSelectedIndex(-1);
 
             ArrayList<Product> allProducts = productController.getAllProducts();
             dtm = (DefaultTableModel) table.getModel();
             for (Product product : allProducts) {
-                dtm.addRow(new Object[]{product.getId(), product.getName(), product.getCid(), product.getBid(), product.getPtid(), product.getVolume()});
+                dtm.addRow(new Object[]{product.getId(), product.getName(), product.getCid(), product.getBid(), product.getPtid(), product.getSid()});
             }
             
             dtmVector = (Vector)dtm.getDataVector().clone();
@@ -99,7 +106,6 @@ public class AddProduct extends javax.swing.JInternalFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         txtProductName = new javax.swing.JTextField();
-        txtVolume = new javax.swing.JTextField();
         txtSafetyStockLevel = new javax.swing.JTextField();
         cmbCategoryName = new javax.swing.JComboBox<>();
         cmbProductType = new javax.swing.JComboBox<>();
@@ -111,6 +117,7 @@ public class AddProduct extends javax.swing.JInternalFrame {
         btnCancel = new javax.swing.JButton();
         cmbBrandName = new javax.swing.JComboBox<>();
         txtProductId = new javax.swing.JTextField();
+        cmbSupplierId = new javax.swing.JComboBox<>();
 
         setClosable(true);
 
@@ -158,15 +165,13 @@ public class AddProduct extends javax.swing.JInternalFrame {
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel7.setText("Volume :");
+        jLabel7.setText("Supplier ID :");
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel8.setText("Safety Stock Level :");
 
         txtProductName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-
-        txtVolume.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
         txtSafetyStockLevel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         txtSafetyStockLevel.addActionListener(new java.awt.event.ActionListener() {
@@ -201,11 +206,11 @@ public class AddProduct extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Product ID", "Product Name", "Category Name", "Brand Name", "Product Type", "Volume"
+                "Product ID", "Product Name", "Category Name", "Brand Name", "Product Type", "Supplier ID"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false
@@ -267,6 +272,19 @@ public class AddProduct extends javax.swing.JInternalFrame {
         txtProductId.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         txtProductId.setEnabled(false);
 
+        cmbSupplierId.setEditable(true);
+        cmbSupplierId.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        cmbSupplierId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbSupplierIdActionPerformed(evt);
+            }
+        });
+        cmbSupplierId.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                cmbSupplierIdKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -275,11 +293,11 @@ public class AddProduct extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(36, 36, 36)
+                        .addGap(28, 28, 28)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
-                        .addComponent(txtProductId, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtProductId))
+                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnSave, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -297,15 +315,13 @@ public class AddProduct extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(txtSafetyStockLevel, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(cmbCategoryName, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(cmbProductType, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(txtVolume, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(cmbBrandName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                    .addComponent(txtProductName, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cmbProductType, javax.swing.GroupLayout.Alignment.LEADING, 0, 268, Short.MAX_VALUE)
+                                    .addComponent(cmbBrandName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cmbCategoryName, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cmbSupplierId, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtSafetyStockLevel, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtProductName))))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtSearchProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -336,7 +352,6 @@ public class AddProduct extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(txtProductId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(35, 35, 35)
@@ -356,8 +371,8 @@ public class AddProduct extends javax.swing.JInternalFrame {
                             .addComponent(cmbProductType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtVolume, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7))
+                            .addComponent(jLabel7)
+                            .addComponent(cmbSupplierId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtSafetyStockLevel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -398,13 +413,13 @@ public class AddProduct extends javax.swing.JInternalFrame {
         String cid = String.valueOf(cmbCategoryName.getSelectedItem());
         String bid = String.valueOf(cmbBrandName.getSelectedItem());
         String ptid = String.valueOf(cmbProductType.getSelectedItem());
+        String sid = String.valueOf(cmbSupplierId.getSelectedItem());
 
-        if (!name.equals("") && !cid.equals("") && !bid.equals("") && !ptid.equals("") && !txtVolume.getText().equals("") && !txtSafetyStockLevel.getText().equals("")) {
+        if (!name.equals("") && !cid.equals("") && !bid.equals("") && !ptid.equals("") && !sid.equals("") && !txtSafetyStockLevel.getText().equals("")) {
 
-            int volume = Integer.valueOf(txtVolume.getText());
             int safetyStock = Integer.valueOf(txtSafetyStockLevel.getText());
 
-            Product product1 = new Product(pid, name, cid, bid, ptid, volume, safetyStock);
+            Product product1 = new Product(pid, name, cid, bid, ptid, sid, safetyStock);
             try {
                 int result = productController.addProduct(product1);
                 if (result > 0) {
@@ -414,14 +429,14 @@ public class AddProduct extends javax.swing.JInternalFrame {
                     cmbBrandName.setSelectedIndex(-1);
                     cmbCategoryName.setSelectedIndex(-1);
                     cmbProductType.setSelectedIndex(-1);
-                    txtVolume.setText("");
+                    cmbSupplierId.setSelectedIndex(-1);
                     txtSafetyStockLevel.setText("");
 
                     ArrayList<Product> allProducts = productController.getAllProducts();
                     dtm = (DefaultTableModel) table.getModel();
                     dtm.setRowCount(0);
                     for (Product product : allProducts) {
-                        dtm.addRow(new Object[]{product.getId(), product.getName(), product.getCid(), product.getBid(), product.getPtid(), product.getVolume()});
+                        dtm.addRow(new Object[]{product.getId(), product.getName(), product.getCid(), product.getBid(), product.getPtid(), product.getSid()});
                     }
                     dtmVector = (Vector) dtm.getDataVector().clone();
                 }else{
@@ -442,6 +457,14 @@ public class AddProduct extends javax.swing.JInternalFrame {
     private void txtSearchProductKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchProductKeyReleased
         searchTableContents(txtSearchProduct.getText());
     }//GEN-LAST:event_txtSearchProductKeyReleased
+
+    private void cmbSupplierIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSupplierIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbSupplierIdActionPerformed
+
+    private void cmbSupplierIdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmbSupplierIdKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbSupplierIdKeyReleased
 
     public void searchTableContents(String searchString) {
         DefaultTableModel currtableModel = (DefaultTableModel) table.getModel();
@@ -468,6 +491,7 @@ public class AddProduct extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> cmbBrandName;
     private javax.swing.JComboBox<String> cmbCategoryName;
     private javax.swing.JComboBox<String> cmbProductType;
+    private javax.swing.JComboBox<String> cmbSupplierId;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -483,6 +507,5 @@ public class AddProduct extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtProductName;
     private javax.swing.JTextField txtSafetyStockLevel;
     private javax.swing.JTextField txtSearchProduct;
-    private javax.swing.JTextField txtVolume;
     // End of variables declaration//GEN-END:variables
 }
