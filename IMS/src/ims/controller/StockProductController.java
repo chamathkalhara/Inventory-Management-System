@@ -83,6 +83,14 @@ public class StockProductController {
         int result = statement.executeUpdate(sql);
         return result;
     }
+    
+    public int updateStockProduct(StockProduct product) throws SQLException, ClassNotFoundException {
+        Connection connection = DBConnection.getInstance().getConnection();
+        Statement statement = connection.createStatement();
+        String sql = "update stockProducts set id = '" + product.getId() + "', unitPrice = " + product.getUnitPrice() + ", expDate = '" + product.getExpDate() + "',qtyAvailable = " + product.getQtyAvailable()+ " where pid = '"+product.getPid()+"'";
+        int result = statement.executeUpdate(sql);
+        return result;
+    }
 
     public int deleteRecord(String id) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getInstance().getConnection();
