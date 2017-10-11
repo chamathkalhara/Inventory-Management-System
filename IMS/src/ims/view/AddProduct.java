@@ -15,6 +15,8 @@ import ims.model.Product;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -32,7 +34,7 @@ public class AddProduct extends javax.swing.JInternalFrame {
     private SupplierController supplierController;
     private DefaultTableModel dtm = null;
     private Vector dtmVector = null;
-    
+
     /**
      * Creates new form AddProduct
      */
@@ -43,7 +45,9 @@ public class AddProduct extends javax.swing.JInternalFrame {
         categoryController = new CategoryController();
         productTypeController = new ProductTypeController();
         supplierController = new SupplierController();
-        
+
+        txtSafetyStockLevel.setEditable(true);
+
         try {
             String newId = productController.getNewId();
             txtProductId.setText(newId);
@@ -56,7 +60,7 @@ public class AddProduct extends javax.swing.JInternalFrame {
 
             ArrayList<String> allProductTypeNames = productTypeController.getAllProductTypeNames();
             cmbProductType.setModel(new DefaultComboBoxModel(allProductTypeNames.toArray()));
-            
+
             ArrayList<String> allSupplierID = supplierController.getAllSupplierId();
             cmbSupplierId.setModel(new DefaultComboBoxModel(allSupplierID.toArray()));
 
@@ -79,8 +83,8 @@ public class AddProduct extends javax.swing.JInternalFrame {
             for (Product product : allProducts) {
                 dtm.addRow(new Object[]{product.getId(), product.getName(), product.getCid(), product.getBid(), product.getPtid(), product.getSid()});
             }
-            
-            dtmVector = (Vector)dtm.getDataVector().clone();
+
+            dtmVector = (Vector) dtm.getDataVector().clone();
 
         } catch (ClassNotFoundException | SQLException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
@@ -113,11 +117,12 @@ public class AddProduct extends javax.swing.JInternalFrame {
         table = new javax.swing.JTable();
         txtSearchProduct = new javax.swing.JTextField();
         btnSave = new javax.swing.JButton();
-        btnPrint = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         cmbBrandName = new javax.swing.JComboBox<>();
         txtProductId = new javax.swing.JTextField();
         cmbSupplierId = new javax.swing.JComboBox<>();
+        btnDelete = new javax.swing.JButton();
 
         setClosable(true);
 
@@ -247,9 +252,14 @@ public class AddProduct extends javax.swing.JInternalFrame {
             }
         });
 
-        btnPrint.setBackground(new java.awt.Color(102, 102, 255));
-        btnPrint.setForeground(new java.awt.Color(255, 255, 255));
-        btnPrint.setText("PRINT");
+        btnEdit.setBackground(new java.awt.Color(102, 102, 255));
+        btnEdit.setForeground(new java.awt.Color(255, 255, 255));
+        btnEdit.setText("EDIT");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         btnCancel.setBackground(new java.awt.Color(255, 0, 51));
         btnCancel.setForeground(new java.awt.Color(255, 255, 255));
@@ -269,8 +279,8 @@ public class AddProduct extends javax.swing.JInternalFrame {
             }
         });
 
+        txtProductId.setEditable(false);
         txtProductId.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        txtProductId.setEnabled(false);
 
         cmbSupplierId.setEditable(true);
         cmbSupplierId.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -282,6 +292,15 @@ public class AddProduct extends javax.swing.JInternalFrame {
         cmbSupplierId.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 cmbSupplierIdKeyReleased(evt);
+            }
+        });
+
+        btnDelete.setBackground(new java.awt.Color(102, 102, 255));
+        btnDelete.setForeground(new java.awt.Color(255, 255, 255));
+        btnDelete.setText("DELETE");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
             }
         });
 
@@ -328,8 +347,10 @@ public class AddProduct extends javax.swing.JInternalFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 556, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(46, 46, 46)
-                            .addComponent(btnPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(27, 27, 27))
         );
         layout.setVerticalGroup(
@@ -346,8 +367,9 @@ public class AddProduct extends javax.swing.JInternalFrame {
                         .addGap(40, 40, 40)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
@@ -415,34 +437,60 @@ public class AddProduct extends javax.swing.JInternalFrame {
         String ptid = String.valueOf(cmbProductType.getSelectedItem());
         String sid = String.valueOf(cmbSupplierId.getSelectedItem());
 
-        if (!name.equals("") && !cid.equals("") && !bid.equals("") && !ptid.equals("") && !sid.equals("") && !txtSafetyStockLevel.getText().equals("")) {
+        if (!name.equals("") && cmbCategoryName.getSelectedIndex() != -1 && cmbBrandName.getSelectedIndex() != -1 && cmbProductType.getSelectedIndex() != -1 && cmbSupplierId.getSelectedIndex() != -1 && !txtSafetyStockLevel.getText().equals("")) {
 
             int safetyStock = Integer.valueOf(txtSafetyStockLevel.getText());
 
             Product product1 = new Product(pid, name, cid, bid, ptid, sid, safetyStock);
             try {
-                int result = productController.addProduct(product1);
-                if (result > 0) {
-                    JOptionPane.showMessageDialog(this, "Product added successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    txtProductId.setText(productController.getNewId());
-                    txtProductName.setText("");
-                    cmbBrandName.setSelectedIndex(-1);
-                    cmbCategoryName.setSelectedIndex(-1);
-                    cmbProductType.setSelectedIndex(-1);
-                    cmbSupplierId.setSelectedIndex(-1);
-                    txtSafetyStockLevel.setText("");
+                if (productController.ifExist(pid)) {
+                    int result = productController.updateProduct(product1);
+                    if (result > 0) {
+                        JOptionPane.showMessageDialog(this, "Product Update successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        txtProductId.setText(productController.getNewId());
+                        txtProductName.setText("");
+                        cmbBrandName.setSelectedIndex(-1);
+                        cmbCategoryName.setSelectedIndex(-1);
+                        cmbProductType.setSelectedIndex(-1);
+                        cmbSupplierId.setSelectedIndex(-1);
+                        txtSafetyStockLevel.setText("");
+                        txtSafetyStockLevel.setEditable(true);
 
-                    ArrayList<Product> allProducts = productController.getAllProducts();
-                    dtm = (DefaultTableModel) table.getModel();
-                    dtm.setRowCount(0);
-                    for (Product product : allProducts) {
-                        dtm.addRow(new Object[]{product.getId(), product.getName(), product.getCid(), product.getBid(), product.getPtid(), product.getSid()});
+                        ArrayList<Product> allProducts = productController.getAllProducts();
+                        dtm = (DefaultTableModel) table.getModel();
+                        dtm.setRowCount(0);
+                        for (Product product : allProducts) {
+                            dtm.addRow(new Object[]{product.getId(), product.getName(), product.getCid(), product.getBid(), product.getPtid(), product.getSid()});
+                        }
+                        dtmVector = (Vector) dtm.getDataVector().clone();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Product Update failed", "Error", JOptionPane.ERROR_MESSAGE);
                     }
-                    dtmVector = (Vector) dtm.getDataVector().clone();
-                }else{
-                    JOptionPane.showMessageDialog(this, "Product added failed", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    int result = productController.addProduct(product1);
+                    if (result > 0) {
+                        JOptionPane.showMessageDialog(this, "Product added successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        txtProductId.setText(productController.getNewId());
+                        txtProductName.setText("");
+                        cmbBrandName.setSelectedIndex(-1);
+                        cmbCategoryName.setSelectedIndex(-1);
+                        cmbProductType.setSelectedIndex(-1);
+                        cmbSupplierId.setSelectedIndex(-1);
+                        txtSafetyStockLevel.setText("");
+
+                        ArrayList<Product> allProducts = productController.getAllProducts();
+                        dtm = (DefaultTableModel) table.getModel();
+                        dtm.setRowCount(0);
+                        for (Product product : allProducts) {
+                            dtm.addRow(new Object[]{product.getId(), product.getName(), product.getCid(), product.getBid(), product.getPtid(), product.getSid()});
+                        }
+                        dtmVector = (Vector) dtm.getDataVector().clone();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Product added failed", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             } catch (SQLException | ClassNotFoundException ex) {
+                ex.printStackTrace();
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
             }
         } else {
@@ -466,6 +514,71 @@ public class AddProduct extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbSupplierIdKeyReleased
 
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        if (dtm == null || dtm.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "Product table is empty", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (table.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "Select a row first", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            try {
+                int selectedRow = table.getSelectedRow();
+                String id = String.valueOf(table.getValueAt(selectedRow, 0));
+                String name = String.valueOf(table.getValueAt(selectedRow, 1));
+                String cName = String.valueOf(table.getValueAt(selectedRow, 2));
+                String bName = String.valueOf(table.getValueAt(selectedRow, 3));
+                String pType = String.valueOf(table.getValueAt(selectedRow, 4));
+                String sid = String.valueOf(table.getValueAt(selectedRow, 5));
+
+                Product product = productController.getProduct(id);
+                int saftyStock = product.getSaftyStock();
+
+                txtProductId.setText(id);
+                txtProductName.setText(name);
+                cmbBrandName.setSelectedItem(bName);
+                cmbCategoryName.setSelectedItem(cName);
+                cmbProductType.setSelectedItem(pType);
+                cmbSupplierId.setSelectedItem(sid);
+                txtSafetyStockLevel.setText(String.valueOf(saftyStock));
+                txtSafetyStockLevel.setEditable(false);
+
+            } catch (ClassNotFoundException | SQLException ex) {
+                Logger.getLogger(AddProduct.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        if (dtm == null || dtm.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "Product table is empty", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (table.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "Select a row first", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            try {
+                int selectedRow = table.getSelectedRow();
+                String id = String.valueOf(table.getValueAt(selectedRow, 0));
+
+                int result = productController.deleteProduct(id);
+                if (result > 0) {
+                    JOptionPane.showMessageDialog(this, "Delete Sucess", "success", JOptionPane.INFORMATION_MESSAGE);
+
+                    dtm.setRowCount(0);
+                    ArrayList<Product> allProducts = productController.getAllProducts();
+                    dtm = (DefaultTableModel) table.getModel();
+                    for (Product product : allProducts) {
+                        dtm.addRow(new Object[]{product.getId(), product.getName(), product.getCid(), product.getBid(), product.getPtid(), product.getSid()});
+                    }
+
+                    dtmVector = (Vector) dtm.getDataVector().clone();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Delete Filed", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+
+            } catch (SQLException | ClassNotFoundException ex) {
+                Logger.getLogger(CustomerRecords.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
     public void searchTableContents(String searchString) {
         DefaultTableModel currtableModel = (DefaultTableModel) table.getModel();
         //To empty the table before search
@@ -486,7 +599,8 @@ public class AddProduct extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
-    private javax.swing.JButton btnPrint;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnSave;
     private javax.swing.JComboBox<String> cmbBrandName;
     private javax.swing.JComboBox<String> cmbCategoryName;

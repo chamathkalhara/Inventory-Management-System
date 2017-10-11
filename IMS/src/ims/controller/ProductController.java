@@ -68,7 +68,7 @@ public class ProductController {
     public ArrayList<Product> getAllProducts() throws ClassNotFoundException, SQLException {
         Connection connection = DBConnection.getInstance().getConnection();
         Statement statement = connection.createStatement();
-        String sql = "select p.id,p.name,c.name,b.name,pt.name,s.name, p.saftyStock from product p, category c, brand b, productType pt, supplier s where p.cid = c.id and p.bid = b.id and p.ptid = pt.id and p.sid = s.id";
+        String sql = "select p.id,p.name,c.name,b.name,pt.name,s.id, p.saftyStock from product p, category c, brand b, productType pt, supplier s where p.cid = c.id and p.bid = b.id and p.ptid = pt.id and p.sid = s.id";
         ResultSet resultSet = statement.executeQuery(sql);
         ArrayList<Product> productList = new ArrayList<>();
 
@@ -89,28 +89,51 @@ public class ProductController {
     public int addProduct(Product product) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getInstance().getConnection();
         Statement statement = connection.createStatement();
-        String sql = "insert into product values ('" + product.getId() + "','" + product.getName() + "','" + categoryController.getIdByName(product.getCid()) + "','" + brandController.getIdByName(product.getBid()) + "','" + productTypeController.getIdByName(product.getPtid()) + "','" + product.getSid()+ "'," + product.getSaftyStock() + ")";
+        String sql = "insert into product values ('" + product.getId() + "','" + product.getName() + "','" + categoryController.getIdByName(product.getCid()) + "','" + brandController.getIdByName(product.getBid()) + "','" + productTypeController.getIdByName(product.getPtid()) + "','" + product.getSid() + "'," + product.getSaftyStock() + ")";
         int result = statement.executeUpdate(sql);
         return result;
     }
-    
+
     public Product getProduct(String pid) throws ClassNotFoundException, SQLException {
         Connection connection = DBConnection.getInstance().getConnection();
         Statement statement = connection.createStatement();
         String sql = "select * from product where id = '" + pid + "'";
         ResultSet result = statement.executeQuery(sql);
-        result.next();
-        Product product = new Product();
-        product.setId(pid);
-        product.setName(result.getString(2));
-        product.setSaftyStock(result.getInt(7));
-        return product;
+        if (result.next()) {
+            Product product = new Product();
+            product.setId(pid);
+            product.setName(result.getString(2));
+            product.setSaftyStock(result.getInt(7));
+            return product;
+        } else {
+            return null;
+        }
+    }
+
+    public boolean ifExist(String id) throws ClassNotFoundException, SQLException {
+        return getProduct(id) != null;
     }
 
     public int changeSafetyStock(Product product) throws ClassNotFoundException, SQLException {
         Connection connection = DBConnection.getInstance().getConnection();
         Statement statement = connection.createStatement();
         String sql = "update product set saftyStock = " + product.getSaftyStock() + " where id = '" + product.getId() + "'";
+        int result = statement.executeUpdate(sql);
+        return result;
+    }
+
+    public int deleteProduct(String id) throws ClassNotFoundException, SQLException {
+        Connection connection = DBConnection.getInstance().getConnection();
+        Statement statement = connection.createStatement();
+        String sql = "delete from product where id = '" + id + "'";
+        int result = statement.executeUpdate(sql);
+        return result;
+    }
+    
+    public int updateProduct(Product product) throws ClassNotFoundException, SQLException {
+        Connection connection = DBConnection.getInstance().getConnection();
+        Statement statement = connection.createStatement();
+        String sql = "update product set name = '"+product.getName()+"', cid =  '" + categoryController.getIdByName(product.getCid()) + "', bid = '" + brandController.getIdByName(product.getBid()) + "', ptid = '" + productTypeController.getIdByName(product.getPtid()) + "', sid = '" + product.getSid() + "' where id = '" + product.getId() + "'";
         int result = statement.executeUpdate(sql);
         return result;
     }

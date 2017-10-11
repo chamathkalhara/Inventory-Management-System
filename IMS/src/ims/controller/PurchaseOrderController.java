@@ -23,25 +23,25 @@ public class PurchaseOrderController {
         String lastId = getLastId();
         String substring = lastId.substring(3);
         int lastIdInt = Integer.parseInt(substring);
-        return "STP" + (lastIdInt + 1);
+        return "POD" + (lastIdInt + 1);
     }
 
     private String getLastId() throws ClassNotFoundException, SQLException {
         Connection connection = DBConnection.getInstance().getConnection();
         Statement statement = connection.createStatement();
-        String sql = "select id from stockProducts order by id desc limit 1";
+        String sql = "select id from purchaseOrder order by id desc";
         ResultSet result = statement.executeQuery(sql);
         if (result.next()) {
             return result.getString(1);
         } else {
-            return "STP00";
+            return "POD00";
         }
     }
 
     public ArrayList<String> getAllId() throws ClassNotFoundException, SQLException {
         Connection connection = DBConnection.getInstance().getConnection();
         Statement statement = connection.createStatement();
-        String sql = "select * from purchaseOrder";
+        String sql = "select DISTINCT id from purchaseOrder";
         ResultSet resultSet = statement.executeQuery(sql);
         ArrayList<String> list = new ArrayList<>();
 
@@ -54,7 +54,7 @@ public class PurchaseOrderController {
     public String getSupplierName(String poid) throws ClassNotFoundException, SQLException {
         Connection connection = DBConnection.getInstance().getConnection();
         Statement statement = connection.createStatement();
-        String sql = "select s.name from purchaseOrder p, supplier s where p.poid = '" + poid + "' and p.sid = s.id";
+        String sql = "select s.name from purchaseOrder p, supplier s where p.id = '" + poid + "' and p.sid = s.id";
         ResultSet resultSet = statement.executeQuery(sql);
 
         if (resultSet.next()) {

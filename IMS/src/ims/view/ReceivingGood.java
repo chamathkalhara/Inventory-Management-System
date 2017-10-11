@@ -6,15 +6,17 @@
 package ims.view;
 
 import ims.common.ComboSearch;
-import ims.controller.GoodsReceiveController;
 import ims.controller.ProductController;
 import ims.controller.PurchaseOrderController;
-import ims.controller.StockProductController;
-import ims.controller.SupplierController;
+import ims.model.GoodsReceived;
 import ims.model.PurchaseOrder;
 import java.awt.event.ItemEvent;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -25,26 +27,21 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ReceivingGood extends javax.swing.JInternalFrame {
 
-    private SupplierController supplierController;
     private ProductController productController;
-    private StockProductController stockProductController;
-    private GoodsReceiveController goodsReceiveController;
     private PurchaseOrderController purchaseOrderController;
     private DefaultTableModel dtm = null;
+
     /**
      * Creates new form AddProduct
      */
     public ReceivingGood() {
         initComponents();
-        
-        supplierController = new SupplierController();
+
         productController = new ProductController();
-        stockProductController = new StockProductController();
-        goodsReceiveController = new GoodsReceiveController();
         purchaseOrderController = new PurchaseOrderController();
 
         dtm = (DefaultTableModel) table.getModel();
-        
+
         try {
 
             ArrayList<String> poidList = purchaseOrderController.getAllId();
@@ -60,7 +57,7 @@ public class ReceivingGood extends javax.swing.JInternalFrame {
 
             cmbPoid.setSelectedIndex(-1);
             cmbProductName.setSelectedIndex(-1);
-            
+
         } catch (ClassNotFoundException | SQLException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
         }
@@ -195,6 +192,11 @@ public class ReceivingGood extends javax.swing.JInternalFrame {
         btnCancel.setForeground(new java.awt.Color(255, 255, 255));
         btnCancel.setText("CANCEL");
         btnCancel.setActionCommand("CLEAR");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
         txtSupplierName.setEditable(false);
         txtSupplierName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -207,6 +209,11 @@ public class ReceivingGood extends javax.swing.JInternalFrame {
         btnAdd.setBackground(new java.awt.Color(102, 102, 255));
         btnAdd.setForeground(new java.awt.Color(255, 255, 255));
         btnAdd.setText("ADD");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         cmbPoid.setEditable(true);
         cmbPoid.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -339,22 +346,61 @@ public class ReceivingGood extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
-        // TODO add your handling code here:
+        cmbPoid.setSelectedIndex(-1);
+        cmbProductName.setSelectedIndex(-1);
+        txtQtyOrdered.setText("");
+        txtQtyReceived.setText("");
+        txtReceivedDate.setText("");
+        txtSupplierName.setText("");
+        txtUnitPrice.setText("");
+
     }//GEN-LAST:event_btnResetActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        // TODO add your handling code here:
+        boolean comp = true;
+        int rowCount = dtm.getRowCount();
+        if(rowCount != 0){
+            for (int i = 0; i < dtm.getRowCount(); i++) {
+                String poid = String.valueOf(dtm.getValueAt(i, 0));
+                try {
+                    String pName = String.valueOf(dtm.getValueAt(i, 2));
+                    String pid = productController.getIdByName(pName);
+                    int qty = Integer.valueOf(String.valueOf(dtm.getValueAt(i, 5)));
+                    String rDate = String.valueOf(dtm.getValueAt(i, 5));
+
+                    GoodsReceived goodsReceived = new GoodsReceived(poid, rDate, pid, qty);
+                    int result = 1;
+                    if(result < 1){
+                        comp = false;
+                        break;
+                    }
+                } catch (ClassNotFoundException | SQLException ex) {
+                    Logger.getLogger(ViewStock.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if(comp){
+                JOptionPane.showMessageDialog(this, "Purchase Order added successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                dtm.setRowCount(0);
+            }else{
+                JOptionPane.showMessageDialog(this, "Purchase Order added filed", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Table is empty", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void cmbPoidItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbPoidItemStateChanged
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             String poid = String.valueOf(evt.getItem());
             try {
-                
                 String supplierName = purchaseOrderController.getSupplierName(poid);
                 txtSupplierName.setText(supplierName);
 
+                String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+                txtReceivedDate.setText(date);
+
             } catch (ClassNotFoundException | SQLException ex) {
+                ex.printStackTrace();
                 JOptionPane.showMessageDialog(this, "please select a item correcly", "Exception", JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -364,11 +410,11 @@ public class ReceivingGood extends javax.swing.JInternalFrame {
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             String productName = String.valueOf(evt.getItem());
             String poid = String.valueOf(cmbPoid.getSelectedItem());
-            
+
             try {
                 String pid = productController.getIdByName(productName);
                 PurchaseOrder purchaseOrder = purchaseOrderController.getPurchaseOrder(poid, pid);
-                
+
                 txtQtyOrdered.setText(String.valueOf(purchaseOrder.getQty()));
                 txtUnitPrice.setText(String.valueOf(purchaseOrder.getUnitPrice()));
             } catch (ClassNotFoundException | SQLException ex) {
@@ -376,6 +422,31 @@ public class ReceivingGood extends javax.swing.JInternalFrame {
             }
         }
     }//GEN-LAST:event_cmbProductNameItemStateChanged
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        String poid = String.valueOf(cmbPoid.getSelectedItem());
+        String pName = String.valueOf(cmbProductName.getSelectedItem());
+        String qtyOrdered = txtQtyOrdered.getText();
+        String qtyReceived = txtQtyReceived.getText();
+        String receivedDate = txtReceivedDate.getText();
+        String sName = txtSupplierName.getText();
+        String uPrice = txtUnitPrice.getText();
+
+        if (poid.equals("") || pName.equals("") || qtyOrdered.equals("") || qtyReceived.equals("") || receivedDate.equals("") || sName.equals("") || uPrice.equals("")) {
+            JOptionPane.showMessageDialog(this, "Fill all the fields first", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            dtm.addRow(new Object[]{poid, sName, pName, Integer.parseInt(qtyOrdered), Integer.parseInt(qtyReceived), receivedDate, Double.parseDouble(uPrice), Double.parseDouble(uPrice) * Integer.parseInt(qtyReceived)});
+            
+            cmbProductName.setSelectedIndex(-1);
+            txtQtyOrdered.setText("");
+            txtQtyReceived.setText("");
+            txtUnitPrice.setText("");
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCancelActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -395,8 +395,14 @@ public class PurchaseOrder extends javax.swing.JInternalFrame {
                 }
             }
             if(comp){
-                JOptionPane.showMessageDialog(this, "Purchase Order added successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-                dtm.setRowCount(0);
+                try {
+                    JOptionPane.showMessageDialog(this, "Purchase Order added successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    dtm.setRowCount(0);
+                    txtPurchaseOrderId.setText(purchaseOrderController.getNewId());
+                    cmbSupplierName.setSelectedIndex(-1);
+                } catch (ClassNotFoundException | SQLException ex) {
+                    Logger.getLogger(PurchaseOrder.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }else{
                 JOptionPane.showMessageDialog(this, "Purchase Order added filed", "Error", JOptionPane.ERROR_MESSAGE);
             }
