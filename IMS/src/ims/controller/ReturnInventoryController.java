@@ -39,12 +39,17 @@ public class ReturnInventoryController {
         }
     }
     
-    public void addReturnInventory(ReturnInventory returnI) throws SQLException, ClassNotFoundException {
+    public int addReturnInventory(ReturnInventory returnI) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getInstance().getConnection();
         Statement statement = connection.createStatement();
         String sql = "insert into returnInventory values ('" + returnI.getId() + "','" + returnI.getPid()+ "'," + returnI.getQtyReturn()+ "," + returnI.getUnitPrice()+ ",'" + returnI.getrDate()+ "')";
-        statement.executeUpdate(sql);
+        int result1 = statement.executeUpdate(sql);
         //productController.updateVolume(issue.getQty());
-        stockProductController.updateStock(returnI.getQtyReturn(),"increase",returnI.getPid());
+        int result2 = stockProductController.updateStock(returnI.getQtyReturn(),"increase",returnI.getPid());
+        if(result1 > 0 && result2 > 0){
+            return 2;
+        }else{
+            return 0;
+        }
     }
 }

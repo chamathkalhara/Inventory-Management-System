@@ -66,6 +66,7 @@ public class StockProductController {
         String sql = "select * from stockProducts where pid = '" + pid + "'";
         ResultSet resultSet = statement.executeQuery(sql);
         
+        resultSet.next();
         String id = resultSet.getString(1);
         String product = resultSet.getString(2);
         double unitPrice = resultSet.getDouble(3);
@@ -100,7 +101,7 @@ public class StockProductController {
         return result;
     }
 
-    public void updateStock(int qty, String type, String pid) throws SQLException, ClassNotFoundException {
+    public int updateStock(int qty, String type, String pid) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getInstance().getConnection();
         Statement statement = connection.createStatement();
         String sql = "";
@@ -110,7 +111,7 @@ public class StockProductController {
             sql = "update stockProducts set qtyAvailable = qtyAvailable + " + qty + " where pid = '" + pid + "'";
         }
 
-        statement.executeUpdate(sql);
+        return statement.executeUpdate(sql);
     }
 
 }

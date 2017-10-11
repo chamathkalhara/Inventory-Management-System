@@ -319,25 +319,32 @@ public class ReturnInventory extends javax.swing.JInternalFrame {
     private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
         try {
             DefaultTableModel dtm = (DefaultTableModel) table.getModel();
-            boolean complete = false;
+            boolean complete = true;
             for (int i = 0; i < dtm.getRowCount(); i++) {
                 String id = productController.getIdByName(String.valueOf(dtm.getValueAt(i, 2)));
                 int qty = Integer.parseInt(String.valueOf(dtm.getValueAt(i, 3)));
                 double unitPrice = Double.parseDouble(String.valueOf(dtm.getValueAt(i, 4)));
                 String date = String.valueOf(dtm.getValueAt(i, 1));
                 ims.model.ReturnInventory returnInventory = new ims.model.ReturnInventory(String.valueOf(dtm.getValueAt(i, 0)), id, qty, unitPrice, date);
-                returnInventoryController.addReturnInventory(returnInventory);
+                int result = returnInventoryController.addReturnInventory(returnInventory);
+                if (result == 0) {
+                    complete = false;
+                    break;
+                }
             }
+            if (complete) {
+                JOptionPane.showMessageDialog(this, "Return Inventory added successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                dtm = (DefaultTableModel) table.getModel();
+                dtm.setRowCount(0);
 
-            JOptionPane.showMessageDialog(this, "Oparation successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-            dtm = (DefaultTableModel) table.getModel();
-            dtm.setRowCount(0);
-
-            txtProductName.setText("");
-            cmbProductId.setSelectedIndex(-1);
-            txtQty.setText("");
-            txtUnitPrice.setText("");
-            txtRecieptId.setText(returnInventoryController.getNewId());
+                txtProductName.setText("");
+                cmbProductId.setSelectedIndex(-1);
+                txtQty.setText("");
+                txtUnitPrice.setText("");
+                txtRecieptId.setText(returnInventoryController.getNewId());
+            }else{
+                JOptionPane.showMessageDialog(this, "Return Inventory added failed", "Erroe", JOptionPane.ERROR_MESSAGE);
+            }
 
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(ReturnInventory.class.getName()).log(Level.SEVERE, null, ex);

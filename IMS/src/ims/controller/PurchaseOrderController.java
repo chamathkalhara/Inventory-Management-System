@@ -6,6 +6,7 @@
 package ims.controller;
 
 import ims.db.DBConnection;
+import ims.model.PurchaseOrder;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -61,5 +62,29 @@ public class PurchaseOrderController {
         } else {
             return "";
         }
+    }
+    
+    public int addPurchaseOrder(PurchaseOrder purchaseOrder) throws ClassNotFoundException, SQLException{
+        Connection connection = DBConnection.getInstance().getConnection();
+        Statement statement = connection.createStatement();
+        String sql = "insert into purchaseOrder values ('" + purchaseOrder.getId() + "','" + purchaseOrder.getPid() + "','" + purchaseOrder.getSid()+ "','" + purchaseOrder.getoDate()+ "'," + purchaseOrder.getQty()+ ", "+purchaseOrder.getUnitPrice()+")";
+        int result = statement.executeUpdate(sql);
+        return result;
+    }
+    
+    public PurchaseOrder getPurchaseOrder(String poid, String pid) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getInstance().getConnection();
+        Statement statement = connection.createStatement();
+        String sql = "select * from purchaseOrder where pid = '" + pid + "' and id = '"+poid+"'";
+        ResultSet resultSet = statement.executeQuery(sql);
+        
+        resultSet.next();
+        
+        double unitPrice = resultSet.getDouble(6);
+        int qty = resultSet.getInt(5);
+        PurchaseOrder purchaseOrder = new PurchaseOrder();
+        purchaseOrder.setQty(qty);
+        purchaseOrder.setUnitPrice(unitPrice);
+        return purchaseOrder;
     }
 }

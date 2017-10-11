@@ -14,13 +14,9 @@ import ims.controller.SupplierController;
 import ims.model.StockProduct;
 import java.awt.event.ItemEvent;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.scene.chart.PieChart;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -66,7 +62,6 @@ public class ViewStock extends javax.swing.JInternalFrame {
 
             cmbPOID.setSelectedIndex(-1);
             cmbProductName.setSelectedIndex(-1);
-                     
 
         } catch (ClassNotFoundException | SQLException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
@@ -402,23 +397,38 @@ public class ViewStock extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddStockActionPerformed
+        boolean comp = true;
+        if (dtm.getRowCount() != 0) {
+            for (int i = 0; i < dtm.getRowCount(); i++) {
+                String productName = String.valueOf(dtm.getValueAt(i, 2));
+                try {
+                    String pid = productController.getIdByName(productName);
+                    String spid = stockProductController.getNewId();
+                    int qtyAvailable = Integer.valueOf(String.valueOf(dtm.getValueAt(i, 3)));
+                    int qty = Integer.valueOf(String.valueOf(dtm.getValueAt(i, 4)));
+                    double unitPrice = Double.parseDouble(String.valueOf(dtm.getValueAt(i, 6)));
+                    String expDate = String.valueOf(dtm.getValueAt(i, 7));
 
-        for(int i = 0; i < dtm.getRowCount(); i++){
-            String productName = String.valueOf(dtm.getValueAt(i, 2));
-            try {
-                String pid = productController.getIdByName(productName);
-                String spid = stockProductController.getNewId();
-                int qtyAvailable = Integer.valueOf(String.valueOf(dtm.getValueAt(i, 3)));
-                int qty = Integer.valueOf(String.valueOf(dtm.getValueAt(i, 4)));
-                double unitPrice = Double.parseDouble(String.valueOf(dtm.getValueAt(i, 6)));
-                String expDate = String.valueOf(dtm.getValueAt(i, 7));
-                
-                StockProduct stockProduct = new StockProduct(spid, pid, unitPrice, expDate, qtyAvailable+qty);
-                stockProductController.updateStockProduct(stockProduct);
-            } catch (ClassNotFoundException | SQLException ex) {
-                Logger.getLogger(ViewStock.class.getName()).log(Level.SEVERE, null, ex);
+                    StockProduct stockProduct = new StockProduct(spid, pid, unitPrice, expDate, qtyAvailable + qty);
+                    int result = stockProductController.updateStockProduct(stockProduct);
+                    if(result < 1){
+                        comp = false;
+                        break;
+                    }
+                } catch (ClassNotFoundException | SQLException ex) {
+                    Logger.getLogger(ViewStock.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
+            if(comp){
+                JOptionPane.showMessageDialog(this, "Stock added successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                dtm.setRowCount(0);
+            }else{
+                JOptionPane.showMessageDialog(this, "Stock added filed", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Table is empty", "Error", JOptionPane.ERROR_MESSAGE);
         }
+
     }//GEN-LAST:event_btnAddStockActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed

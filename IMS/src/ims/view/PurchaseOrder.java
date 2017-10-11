@@ -31,22 +31,23 @@ public class PurchaseOrder extends javax.swing.JInternalFrame {
     private ProductController productController;
     private SupplierController supplierController;
     private DefaultTableModel dtm = null;
+
     /**
      * Creates new form AddProduct
      */
     public PurchaseOrder() {
         try {
             initComponents();
-            
+
             purchaseOrderController = new PurchaseOrderController();
             productController = new ProductController();
             supplierController = new SupplierController();
-            
+
             dtm = (DefaultTableModel) table.getModel();
-            
+
             String newId = purchaseOrderController.getNewId();
             txtPurchaseOrderId.setText(newId);
-            
+
             ArrayList<String> pidList = productController.getAllProductId();
             cmbProductId.setModel(new DefaultComboBoxModel(pidList.toArray()));
 
@@ -60,11 +61,10 @@ public class PurchaseOrder extends javax.swing.JInternalFrame {
 
             cmbProductId.setSelectedIndex(-1);
             cmbSupplierName.setSelectedIndex(-1);
-            
+
             String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
             txtDate.setText(date);
-            
-            
+
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(PurchaseOrder.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -95,7 +95,7 @@ public class PurchaseOrder extends javax.swing.JInternalFrame {
         table = new javax.swing.JTable();
         btnSave = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
-        qty = new javax.swing.JTextField();
+        txtQty = new javax.swing.JTextField();
         txtProductName = new javax.swing.JTextField();
         cmbSupplierName = new javax.swing.JComboBox<>();
         btnReset = new javax.swing.JButton();
@@ -125,7 +125,7 @@ public class PurchaseOrder extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
@@ -163,6 +163,11 @@ public class PurchaseOrder extends javax.swing.JInternalFrame {
         txtDate.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
         txtUnitPrice.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txtUnitPrice.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtUnitPriceActionPerformed(evt);
+            }
+        });
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -202,22 +207,47 @@ public class PurchaseOrder extends javax.swing.JInternalFrame {
         btnCancel.setForeground(new java.awt.Color(255, 255, 255));
         btnCancel.setText("CANCEL");
         btnCancel.setActionCommand("CLEAR");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
-        qty.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txtQty.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txtQty.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtQtyActionPerformed(evt);
+            }
+        });
 
         txtProductName.setEditable(false);
         txtProductName.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
         cmbSupplierName.setEditable(true);
         cmbSupplierName.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        cmbSupplierName.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbSupplierNameItemStateChanged(evt);
+            }
+        });
 
         btnReset.setBackground(new java.awt.Color(102, 102, 255));
         btnReset.setForeground(new java.awt.Color(255, 255, 255));
         btnReset.setText("RESET");
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
 
         btnAdd.setBackground(new java.awt.Color(102, 102, 255));
         btnAdd.setForeground(new java.awt.Color(255, 255, 255));
         btnAdd.setText("ADD");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -280,7 +310,7 @@ public class PurchaseOrder extends javax.swing.JInternalFrame {
                             .addComponent(jLabel9))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(qty, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                            .addComponent(txtQty, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
                             .addComponent(txtTotalPrice, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
                             .addComponent(txtProductName)))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -314,7 +344,7 @@ public class PurchaseOrder extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jLabel7)
-                    .addComponent(qty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtQty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbSupplierName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -342,7 +372,37 @@ public class PurchaseOrder extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        // TODO add your handling code here:
+        boolean comp = true;
+        int rowCount = dtm.getRowCount();
+        if(rowCount != 0){
+            for (int i = 0; i < dtm.getRowCount(); i++) {
+                String poid = String.valueOf(dtm.getValueAt(i, 0));
+                try {
+                    String sid = supplierController.getIdByName(String.valueOf(dtm.getValueAt(i, 4)));
+                    String pid = String.valueOf(dtm.getValueAt(i, 3));
+                    int qty = Integer.valueOf(String.valueOf(dtm.getValueAt(i, 5)));
+                    double unitPrice = Double.parseDouble(String.valueOf(dtm.getValueAt(i, 6)));
+                    String oDate = String.valueOf(dtm.getValueAt(i, 1));
+
+                    ims.model.PurchaseOrder purchaseOrder = new ims.model.PurchaseOrder(poid, pid, sid, oDate, qty, unitPrice);
+                    int result = purchaseOrderController.addPurchaseOrder(purchaseOrder);
+                    if(result < 1){
+                        comp = false;
+                        break;
+                    }
+                } catch (ClassNotFoundException | SQLException ex) {
+                    Logger.getLogger(ViewStock.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if(comp){
+                JOptionPane.showMessageDialog(this, "Purchase Order added successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                dtm.setRowCount(0);
+            }else{
+                JOptionPane.showMessageDialog(this, "Purchase Order added filed", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Table is empty", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void cmbProductIdItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbProductIdItemStateChanged
@@ -358,6 +418,74 @@ public class PurchaseOrder extends javax.swing.JInternalFrame {
             }
         }
     }//GEN-LAST:event_cmbProductIdItemStateChanged
+
+    private void cmbSupplierNameItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbSupplierNameItemStateChanged
+
+    }//GEN-LAST:event_cmbSupplierNameItemStateChanged
+
+    private void txtUnitPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUnitPriceActionPerformed
+        if (!txtQty.getText().equals("") && !txtUnitPrice.getText().equals("")) {
+            int qty = Integer.parseInt(txtQty.getText());
+            double unitPrice = Double.parseDouble(txtUnitPrice.getText());
+
+            txtTotalPrice.setText(String.valueOf(qty * unitPrice));
+        } else {
+            JOptionPane.showMessageDialog(this, "fill all the fields first", "Erroe", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_txtUnitPriceActionPerformed
+
+    private void txtQtyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQtyActionPerformed
+        if (!txtQty.getText().equals("") && !txtUnitPrice.getText().equals("")) {
+            int qty = Integer.parseInt(txtQty.getText());
+            double unitPrice = Double.parseDouble(txtUnitPrice.getText());
+
+            txtTotalPrice.setText(String.valueOf(qty * unitPrice));
+        } else {
+            JOptionPane.showMessageDialog(this, "fill all the fields first", "Erroe", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_txtQtyActionPerformed
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        cmbProductId.setSelectedIndex(-1);
+        cmbSupplierName.setSelectedIndex(-1);
+        txtProductName.setText("");
+        txtQty.setText("");
+        txtTotalPrice.setText("");
+        txtUnitPrice.setText("");
+    }//GEN-LAST:event_btnResetActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        String poid = txtPurchaseOrderId.getText();
+        int pidIndex = cmbProductId.getSelectedIndex();
+        int sNameIndex = cmbSupplierName.getSelectedIndex();
+        String pName = txtProductName.getText();
+        String qtyS = txtQty.getText();
+        String total = txtTotalPrice.getText();
+        String unitPrice = txtUnitPrice.getText();
+
+        if (!poid.equals("") && pidIndex != -1 && sNameIndex != -1 && !pName.equals("") && !qtyS.equals("") && !total.equals("") && !unitPrice.equals("")) {
+            String pid = String.valueOf(cmbProductId.getSelectedItem());
+            String sName = String.valueOf(cmbSupplierName.getSelectedItem());
+            int qty = Integer.parseInt(qtyS);
+            double totalPrice = Double.parseDouble(total);
+            double uPrice = Double.parseDouble(unitPrice);
+            String date = txtDate.getText();
+
+            dtm.addRow(new Object[]{poid, date, pName, pid, sName, qty, uPrice, totalPrice});
+
+            cmbProductId.setSelectedIndex(-1);
+            txtProductName.setText("");
+            txtQty.setText("");
+            txtTotalPrice.setText("");
+            txtUnitPrice.setText("");
+        } else {
+            JOptionPane.showMessageDialog(this, "fill all the fields first", "Erroe", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCancelActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -378,11 +506,11 @@ public class PurchaseOrder extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField qty;
     private javax.swing.JTable table;
     private javax.swing.JTextField txtDate;
     private javax.swing.JTextField txtProductName;
     private javax.swing.JTextField txtPurchaseOrderId;
+    private javax.swing.JTextField txtQty;
     private javax.swing.JTextField txtTotalPrice;
     private javax.swing.JTextField txtUnitPrice;
     // End of variables declaration//GEN-END:variables
