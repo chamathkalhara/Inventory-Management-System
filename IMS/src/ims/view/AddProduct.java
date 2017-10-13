@@ -6,6 +6,7 @@
 package ims.view;
 
 import ims.common.ComboSearch;
+import ims.common.Validations;
 import ims.controller.BrandController;
 import ims.controller.CategoryController;
 import ims.controller.ProductController;
@@ -34,6 +35,7 @@ public class AddProduct extends javax.swing.JInternalFrame {
     private SupplierController supplierController;
     private DefaultTableModel dtm = null;
     private Vector dtmVector = null;
+    private Validations validations;
 
     /**
      * Creates new form AddProduct
@@ -45,6 +47,7 @@ public class AddProduct extends javax.swing.JInternalFrame {
         categoryController = new CategoryController();
         productTypeController = new ProductTypeController();
         supplierController = new SupplierController();
+        validations = new Validations();
 
         txtSafetyStockLevel.setEditable(true);
 
@@ -182,6 +185,11 @@ public class AddProduct extends javax.swing.JInternalFrame {
         txtSafetyStockLevel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtSafetyStockLevelActionPerformed(evt);
+            }
+        });
+        txtSafetyStockLevel.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSafetyStockLevelKeyReleased(evt);
             }
         });
 
@@ -578,6 +586,11 @@ public class AddProduct extends javax.swing.JInternalFrame {
             }
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void txtSafetyStockLevelKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSafetyStockLevelKeyReleased
+        String text = txtSafetyStockLevel.getText().replaceAll("[\\D]", "");
+        txtSafetyStockLevel.setText(text);
+    }//GEN-LAST:event_txtSafetyStockLevelKeyReleased
 
     public void searchTableContents(String searchString) {
         DefaultTableModel currtableModel = (DefaultTableModel) table.getModel();

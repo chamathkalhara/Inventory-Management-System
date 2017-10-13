@@ -5,6 +5,7 @@
  */
 package ims.view;
 
+import ims.common.Validations;
 import ims.controller.SupplierController;
 import ims.model.Supplier;
 import java.sql.SQLException;
@@ -203,6 +204,11 @@ public class SupplierRecord extends javax.swing.JInternalFrame {
         txtNic.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
         txtMobile.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txtMobile.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtMobileKeyReleased(evt);
+            }
+        });
 
         txtEmail.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
@@ -440,6 +446,10 @@ public class SupplierRecord extends javax.swing.JInternalFrame {
             }
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void txtMobileKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMobileKeyReleased
+        Validations.tpNumberValidation(txtMobile);
+    }//GEN-LAST:event_txtMobileKeyReleased
 
     public void searchTableContents(String searchString) {
         DefaultTableModel currtableModel = (DefaultTableModel) table.getModel();

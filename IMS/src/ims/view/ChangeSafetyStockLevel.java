@@ -108,7 +108,6 @@ public class ChangeSafetyStockLevel extends javax.swing.JInternalFrame {
 
         cmbProductId.setEditable(true);
         cmbProductId.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        cmbProductId.setSelectedIndex(-1);
         cmbProductId.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbProductIdItemStateChanged(evt);
@@ -124,6 +123,11 @@ public class ChangeSafetyStockLevel extends javax.swing.JInternalFrame {
         txtOldSafetyStock.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
         txtNewSafetyStock.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txtNewSafetyStock.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNewSafetyStockKeyReleased(evt);
+            }
+        });
 
         btnSave.setBackground(new java.awt.Color(102, 102, 255));
         btnSave.setForeground(new java.awt.Color(255, 255, 255));
@@ -169,23 +173,22 @@ public class ChangeSafetyStockLevel extends javax.swing.JInternalFrame {
                         .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGap(6, 6, 6)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtOldSafetyStock, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
-                                .addComponent(txtNewSafetyStock)))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(cmbProductId, 0, 203, Short.MAX_VALUE)
-                                .addComponent(txtProductName)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtOldSafetyStock, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                            .addComponent(txtNewSafetyStock)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cmbProductId, 0, 203, Short.MAX_VALUE)
+                            .addComponent(txtProductName))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -274,6 +277,11 @@ public class ChangeSafetyStockLevel extends javax.swing.JInternalFrame {
 
 
     }//GEN-LAST:event_cmbProductIdPropertyChange
+
+    private void txtNewSafetyStockKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNewSafetyStockKeyReleased
+        String text = txtNewSafetyStock.getText().replaceAll("[\\D]", "");
+        txtNewSafetyStock.setText(text);
+    }//GEN-LAST:event_txtNewSafetyStockKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
