@@ -5,7 +5,7 @@
  */
 package ims;
 
-import ims.view.Login2;
+import ims.view.CashierMain;
 import ims.view.StoreKeeperMain;
 import javax.swing.JFrame;
 
@@ -20,7 +20,7 @@ public class IMS {
      */
     public static void main(String[] args) {
         //Login2 main2 = new Login2();
-        StoreKeeperMain main2 = new StoreKeeperMain();
+        CashierMain main2 = new CashierMain();
         main2.setVisible(true);
         main2.setLocationRelativeTo(null);
         main2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

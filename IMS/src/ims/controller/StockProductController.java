@@ -65,30 +65,33 @@ public class StockProductController {
         Statement statement = connection.createStatement();
         String sql = "select * from stockProducts where pid = '" + pid + "'";
         ResultSet resultSet = statement.executeQuery(sql);
-        
-        resultSet.next();
-        String id = resultSet.getString(1);
-        String product = resultSet.getString(2);
-        double unitPrice = resultSet.getDouble(3);
-        String expDate = resultSet.getString(4);
-        int qtyAvailable = resultSet.getInt(5);
-        StockProduct stockProduct = new StockProduct(id, product, unitPrice, expDate, qtyAvailable);
-        return stockProduct;
+
+        if (resultSet.next()) {
+            String id = resultSet.getString(1);
+            String product = resultSet.getString(2);
+            double unitPrice = resultSet.getDouble(3);
+            String expDate = resultSet.getString(4);
+            int qtyAvailable = resultSet.getInt(5);
+            StockProduct stockProduct = new StockProduct(id, product, unitPrice, expDate, qtyAvailable);
+            return stockProduct;
+        } else {
+            return null;
+        }
 
     }
 
     public int addStockProduct(StockProduct product) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getInstance().getConnection();
         Statement statement = connection.createStatement();
-        String sql = "insert into stockProducts values ('" + product.getId() + "','" + productController.getIdByName(product.getPid()) + "'," + product.getUnitPrice() + ",'" + product.getExpDate() + "'," + product.getQtyAvailable()+ ")";
+        String sql = "insert into stockProducts values ('" + product.getId() + "','" + productController.getIdByName(product.getPid()) + "'," + product.getUnitPrice() + ",'" + product.getExpDate() + "'," + product.getQtyAvailable() + ")";
         int result = statement.executeUpdate(sql);
         return result;
     }
-    
+
     public int updateStockProduct(StockProduct product) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getInstance().getConnection();
         Statement statement = connection.createStatement();
-        String sql = "update stockProducts set id = '" + product.getId() + "', unitPrice = " + product.getUnitPrice() + ", expDate = '" + product.getExpDate() + "',qtyAvailable = " + product.getQtyAvailable()+ " where pid = '"+product.getPid()+"'";
+        String sql = "update stockProducts set id = '" + product.getId() + "', unitPrice = " + product.getUnitPrice() + ", expDate = '" + product.getExpDate() + "',qtyAvailable = " + product.getQtyAvailable() + " where pid = '" + product.getPid() + "'";
         int result = statement.executeUpdate(sql);
         return result;
     }

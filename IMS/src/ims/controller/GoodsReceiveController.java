@@ -45,4 +45,12 @@ public class GoodsReceiveController {
             return null;
         }
     }
+    
+    public int addReceivedGood(GoodsReceived goodsReceived) throws ClassNotFoundException, SQLException{
+        Connection connection = DBConnection.getInstance().getConnection();
+        Statement statement = connection.createStatement();
+        String sql = "insert into goodsReceived values ('" + goodsReceived.getPoid()+ "','" + goodsReceived.getrDate()+ "','" + goodsReceived.getPid()+ "'," + goodsReceived.getQty()+ ")";
+        int result = statement.executeUpdate(sql);
+        return result;
+    }
 }

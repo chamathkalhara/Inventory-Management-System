@@ -6,6 +6,7 @@
 package ims.controller;
 
 import ims.db.DBConnection;
+import ims.model.IssueNonRegistered;
 import ims.model.IssueRegistered;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -39,10 +40,38 @@ public class IssueController {
         }
     }
     
+    public String getNewBillId() throws ClassNotFoundException, SQLException{
+        String lastId = getLastBillId();
+        String substring = lastId.substring(3);
+        int lastIdInt = Integer.parseInt(substring);
+        return "BIL"+(lastIdInt+1);
+    }
+    
+    private String getLastBillId() throws ClassNotFoundException, SQLException{
+        Connection connection = DBConnection.getInstance().getConnection();
+        Statement statement = connection.createStatement();
+        String sql = "select id from issueNonRegistered order by id desc limit 1";
+        ResultSet result = statement.executeQuery(sql);
+        if(result.next()){
+            return result.getString(1);
+        }else{
+            return "BIL00";
+        }
+    }
+    
     public void addIssueInventryRegistered(IssueRegistered issue) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getInstance().getConnection();
         Statement statement = connection.createStatement();
         String sql = "insert into issueRegistered values ('" + issue.getId() + "','" + issue.getCid()+ "','" + issue.getPid()+ "','" + issue.getOrderDate()+ "'," + issue.getQty()+ ")";
+        statement.executeUpdate(sql);
+        //productController.updateVolume(issue.getQty());
+        stockProductController.updateStock(issue.getQty(),"reduce",issue.getPid());
+    }
+    
+    public void addIssueInventryNonRegistered(IssueNonRegistered issue) throws SQLException, ClassNotFoundException {
+        Connection connection = DBConnection.getInstance().getConnection();
+        Statement statement = connection.createStatement();
+        String sql = "insert into issueNonRegistered values ('" + issue.getId() + "','" + issue.getPid()+ "','" + issue.getOrderDate()+ "'," + issue.getQty()+ ")";
         statement.executeUpdate(sql);
         //productController.updateVolume(issue.getQty());
         stockProductController.updateStock(issue.getQty(),"reduce",issue.getPid());

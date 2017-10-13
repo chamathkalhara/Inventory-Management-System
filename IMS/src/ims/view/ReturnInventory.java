@@ -10,6 +10,7 @@ import ims.controller.ProductController;
 import ims.controller.ReturnInventoryController;
 import ims.controller.StockProductController;
 import ims.model.Product;
+import ims.model.StockProduct;
 import java.awt.event.ItemEvent;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -326,7 +327,9 @@ public class ReturnInventory extends javax.swing.JInternalFrame {
                 double unitPrice = Double.parseDouble(String.valueOf(dtm.getValueAt(i, 4)));
                 String date = String.valueOf(dtm.getValueAt(i, 1));
                 ims.model.ReturnInventory returnInventory = new ims.model.ReturnInventory(String.valueOf(dtm.getValueAt(i, 0)), id, qty, unitPrice, date);
+
                 int result = returnInventoryController.addReturnInventory(returnInventory);
+
                 if (result == 0) {
                     complete = false;
                     break;
@@ -342,7 +345,7 @@ public class ReturnInventory extends javax.swing.JInternalFrame {
                 txtQty.setText("");
                 txtUnitPrice.setText("");
                 txtRecieptId.setText(returnInventoryController.getNewId());
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(this, "Return Inventory added failed", "Erroe", JOptionPane.ERROR_MESSAGE);
             }
 
@@ -367,7 +370,17 @@ public class ReturnInventory extends javax.swing.JInternalFrame {
                 Product product = productController.getProduct(productId);
                 txtProductName.setText(product.getName());
 
+                StockProduct stockProduct = stockProductController.getStockProductByPid(productId);
+                if (stockProduct == null) {
+                    JOptionPane.showMessageDialog(this, "Stock is empty", "Error", JOptionPane.ERROR_MESSAGE);
+                    cmbProductId.setSelectedIndex(-1);
+                    txtProductName.setText("");
+                } else {
+                    txtUnitPrice.setText(String.valueOf(stockProduct.getUnitPrice()));
+                }
+
             } catch (ClassNotFoundException | SQLException ex) {
+                ex.printStackTrace();
                 JOptionPane.showMessageDialog(this, "please select a item correcly", "Exception", JOptionPane.ERROR_MESSAGE);
             }
         }

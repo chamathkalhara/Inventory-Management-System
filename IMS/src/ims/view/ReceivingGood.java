@@ -6,6 +6,7 @@
 package ims.view;
 
 import ims.common.ComboSearch;
+import ims.controller.GoodsReceiveController;
 import ims.controller.ProductController;
 import ims.controller.PurchaseOrderController;
 import ims.model.GoodsReceived;
@@ -29,6 +30,7 @@ public class ReceivingGood extends javax.swing.JInternalFrame {
 
     private ProductController productController;
     private PurchaseOrderController purchaseOrderController;
+    private GoodsReceiveController goodsReceiveController;
     private DefaultTableModel dtm = null;
 
     /**
@@ -39,7 +41,8 @@ public class ReceivingGood extends javax.swing.JInternalFrame {
 
         productController = new ProductController();
         purchaseOrderController = new PurchaseOrderController();
-
+        goodsReceiveController = new GoodsReceiveController();
+        
         dtm = (DefaultTableModel) table.getModel();
 
         try {
@@ -365,11 +368,12 @@ public class ReceivingGood extends javax.swing.JInternalFrame {
                 try {
                     String pName = String.valueOf(dtm.getValueAt(i, 2));
                     String pid = productController.getIdByName(pName);
-                    int qty = Integer.valueOf(String.valueOf(dtm.getValueAt(i, 5)));
+                    int qty = Integer.valueOf(String.valueOf(dtm.getValueAt(i, 4)));
                     String rDate = String.valueOf(dtm.getValueAt(i, 5));
 
                     GoodsReceived goodsReceived = new GoodsReceived(poid, rDate, pid, qty);
-                    int result = 1;
+                    int result = goodsReceiveController.addReceivedGood(goodsReceived);
+
                     if(result < 1){
                         comp = false;
                         break;
