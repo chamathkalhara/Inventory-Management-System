@@ -6,11 +6,9 @@
 package ims.view;
 
 import ims.common.ComboSearch;
-import ims.controller.CustomerController;
 import ims.controller.IssueController;
 import ims.controller.ProductController;
 import ims.controller.StockProductController;
-import ims.model.IssueNonRegistered;
 import ims.model.Product;
 import ims.model.StockProduct;
 import java.awt.event.ItemEvent;

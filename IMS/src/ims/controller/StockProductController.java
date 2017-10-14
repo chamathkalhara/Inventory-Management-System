@@ -83,7 +83,7 @@ public class StockProductController {
     public int addStockProduct(StockProduct product) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getInstance().getConnection();
         Statement statement = connection.createStatement();
-        String sql = "insert into stockProducts values ('" + product.getId() + "','" + productController.getIdByName(product.getPid()) + "'," + product.getUnitPrice() + ",'" + product.getExpDate() + "'," + product.getQtyAvailable() + ")";
+        String sql = "insert into stockProducts values ('" + product.getId() + "','" + product.getPid() + "'," + product.getUnitPrice() + ",'" + product.getExpDate() + "'," + product.getQtyAvailable() + ")";
         int result = statement.executeUpdate(sql);
         return result;
     }
