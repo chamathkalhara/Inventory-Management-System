@@ -5,6 +5,15 @@
  */
 package ims.view;
 
+import java.util.HashMap;
+import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.view.JasperViewer;
+
 /**
  *
  * @author chathura
@@ -32,7 +41,7 @@ public class ManagerMain2 extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btnAddUser = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnGoodReceiveNote = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
@@ -89,10 +98,15 @@ public class ManagerMain2 extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(51, 102, 255));
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Good Received Note");
+        btnGoodReceiveNote.setBackground(new java.awt.Color(51, 102, 255));
+        btnGoodReceiveNote.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnGoodReceiveNote.setForeground(new java.awt.Color(255, 255, 255));
+        btnGoodReceiveNote.setText("Good Received Note");
+        btnGoodReceiveNote.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGoodReceiveNoteActionPerformed(evt);
+            }
+        });
 
         jButton3.setBackground(new java.awt.Color(51, 102, 255));
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -137,7 +151,7 @@ public class ManagerMain2 extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnGoodReceiveNote, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnAddUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(26, 26, 26)
@@ -158,7 +172,7 @@ public class ManagerMain2 extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnAddUser, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnGoodReceiveNote, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -189,6 +203,14 @@ public class ManagerMain2 extends javax.swing.JFrame {
         login.setVisible(true);
         login.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnLogoutActionPerformed
+
+    private void btnGoodReceiveNoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoodReceiveNoteActionPerformed
+        dskPane.removeAll();
+        dskPane.repaint();
+        GoodReceiveNote goodReceiveNote = new GoodReceiveNote();
+        dskPane.add(goodReceiveNote);
+        goodReceiveNote.show();
+    }//GEN-LAST:event_btnGoodReceiveNoteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -227,9 +249,9 @@ public class ManagerMain2 extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddUser;
+    private javax.swing.JButton btnGoodReceiveNote;
     private javax.swing.JButton btnLogout;
     private javax.swing.JDesktopPane dskPane;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;

@@ -30,7 +30,7 @@
           <Component id="jPanel1" max="32767" attributes="0"/>
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jButton2" alignment="0" max="32767" attributes="0"/>
+                  <Component id="btnGoodReceiveNote" alignment="0" max="32767" attributes="0"/>
                   <Component id="btnAddUser" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
@@ -55,7 +55,7 @@
                   <Group type="102" attributes="0">
                       <Component id="btnAddUser" min="-2" pref="51" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                      <Component id="jButton2" min="-2" pref="57" max="-2" attributes="0"/>
+                      <Component id="btnGoodReceiveNote" min="-2" pref="57" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jButton3" min="-2" pref="50" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -155,7 +155,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddUserActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton2">
+    <Component class="javax.swing.JButton" name="btnGoodReceiveNote">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="66" red="33" type="rgb"/>
@@ -168,6 +168,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Good Received Note"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGoodReceiveNoteActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButton3">
       <Properties>
