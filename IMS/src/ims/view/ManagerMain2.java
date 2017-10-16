@@ -6,12 +6,15 @@
 package ims.view;
 
 import ims.controller.ReportController;
+import java.awt.BorderLayout;
+import java.awt.Container;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JInternalFrame;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -274,15 +277,8 @@ public class ManagerMain2 extends javax.swing.JFrame {
             JasperReport compileReport = JasperCompileManager.compileReport(getClass().getResourceAsStream("../report/SalesOrderReport.jrxml"));
             JRTableModelDataSource dateSource = new JRTableModelDataSource(dtm);
             JasperPrint fillReport = JasperFillManager.fillReport(compileReport, map, dateSource);
-            //JasperViewer.viewReport(fillReport, false);
+            JasperViewer.viewReport(fillReport, false);
 
-            dskPane.removeAll();
-            dskPane.repaint();
-            
-            JRViewer jRViewer = new JRViewer(fillReport);
-            dskPane.add(jRViewer);
-            
-            jRViewer.setVisible(true);
 
         } catch (ClassNotFoundException | SQLException | JRException ex) {
             Logger.getLogger(ManagerMain2.class.getName()).log(Level.SEVERE, null, ex);
