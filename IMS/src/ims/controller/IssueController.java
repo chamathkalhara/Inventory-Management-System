@@ -19,7 +19,7 @@ import java.sql.Statement;
  */
 public class IssueController {
     
-    private StockProductController stockProductController;
+    private StockProductController stockProductController = new StockProductController();
     
     public String getNewId() throws ClassNotFoundException, SQLException{
         String lastId = getLastId();

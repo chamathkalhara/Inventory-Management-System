@@ -5,13 +5,21 @@
  */
 package ims.view;
 
+import ims.controller.ReportController;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.view.JRViewer;
 import net.sf.jasperreports.view.JasperViewer;
 
 /**
@@ -42,9 +50,9 @@ public class ManagerMain2 extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         btnAddUser = new javax.swing.JButton();
         btnGoodReceiveNote = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        btnIssueReport = new javax.swing.JButton();
+        btnInventoryLevel = new javax.swing.JButton();
+        btnProductDescription = new javax.swing.JButton();
         btnLogout = new javax.swing.JButton();
         dskPane = new javax.swing.JDesktopPane();
 
@@ -108,20 +116,35 @@ public class ManagerMain2 extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(51, 102, 255));
-        jButton3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Good Issue Report");
+        btnIssueReport.setBackground(new java.awt.Color(51, 102, 255));
+        btnIssueReport.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnIssueReport.setForeground(new java.awt.Color(255, 255, 255));
+        btnIssueReport.setText("Good Issue Report");
+        btnIssueReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIssueReportActionPerformed(evt);
+            }
+        });
 
-        jButton4.setBackground(new java.awt.Color(51, 102, 255));
-        jButton4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("Inventory Level Report");
+        btnInventoryLevel.setBackground(new java.awt.Color(51, 102, 255));
+        btnInventoryLevel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnInventoryLevel.setForeground(new java.awt.Color(255, 255, 255));
+        btnInventoryLevel.setText("Inventory Level Report");
+        btnInventoryLevel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInventoryLevelActionPerformed(evt);
+            }
+        });
 
-        jButton5.setBackground(new java.awt.Color(51, 102, 255));
-        jButton5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setText("Product Description Report");
+        btnProductDescription.setBackground(new java.awt.Color(51, 102, 255));
+        btnProductDescription.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnProductDescription.setForeground(new java.awt.Color(255, 255, 255));
+        btnProductDescription.setText("Product Description Report");
+        btnProductDescription.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProductDescriptionActionPerformed(evt);
+            }
+        });
 
         btnLogout.setBackground(new java.awt.Color(255, 0, 0));
         btnLogout.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -156,9 +179,9 @@ public class ManagerMain2 extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnProductDescription, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnInventoryLevel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnIssueReport, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(dskPane)
                 .addContainerGap())
@@ -174,11 +197,11 @@ public class ManagerMain2 extends javax.swing.JFrame {
                         .addGap(31, 31, 31)
                         .addComponent(btnGoodReceiveNote, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnIssueReport, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnInventoryLevel, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnProductDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31)
                         .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 217, Short.MAX_VALUE))
@@ -211,6 +234,60 @@ public class ManagerMain2 extends javax.swing.JFrame {
         dskPane.add(goodReceiveNote);
         goodReceiveNote.show();
     }//GEN-LAST:event_btnGoodReceiveNoteActionPerformed
+
+    private void btnProductDescriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductDescriptionActionPerformed
+        try {
+            ReportController reportController = new ReportController();
+            DefaultTableModel dtm = reportController.getProductDescriptionReportData();
+
+            HashMap<String, Object> map = new HashMap<>();
+            JasperReport compileReport = JasperCompileManager.compileReport(getClass().getResourceAsStream("../report/ProductDescription.jrxml"));
+            JRTableModelDataSource dateSource = new JRTableModelDataSource(dtm);
+            JasperPrint fillReport = JasperFillManager.fillReport(compileReport, map, dateSource);
+            JasperViewer.viewReport(fillReport, false);
+        } catch (ClassNotFoundException | SQLException | JRException ex) {
+            Logger.getLogger(ManagerMain2.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnProductDescriptionActionPerformed
+
+    private void btnInventoryLevelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventoryLevelActionPerformed
+        try {
+            ReportController reportController = new ReportController();
+            DefaultTableModel dtm = reportController.getInventoryLevelReportData();
+
+            HashMap<String, Object> map = new HashMap<>();
+            JasperReport compileReport = JasperCompileManager.compileReport(getClass().getResourceAsStream("../report/InventoryLevel.jrxml"));
+            JRTableModelDataSource dateSource = new JRTableModelDataSource(dtm);
+            JasperPrint fillReport = JasperFillManager.fillReport(compileReport, map, dateSource);
+            JasperViewer.viewReport(fillReport, false);
+        } catch (ClassNotFoundException | SQLException | JRException ex) {
+            Logger.getLogger(ManagerMain2.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnInventoryLevelActionPerformed
+
+    private void btnIssueReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIssueReportActionPerformed
+        try {
+            ReportController reportController = new ReportController();
+            DefaultTableModel dtm = reportController.getIssueReportData();
+
+            HashMap<String, Object> map = new HashMap<>();
+            JasperReport compileReport = JasperCompileManager.compileReport(getClass().getResourceAsStream("../report/SalesOrderReport.jrxml"));
+            JRTableModelDataSource dateSource = new JRTableModelDataSource(dtm);
+            JasperPrint fillReport = JasperFillManager.fillReport(compileReport, map, dateSource);
+            //JasperViewer.viewReport(fillReport, false);
+
+            dskPane.removeAll();
+            dskPane.repaint();
+            
+            JRViewer jRViewer = new JRViewer(fillReport);
+            dskPane.add(jRViewer);
+            
+            jRViewer.setVisible(true);
+
+        } catch (ClassNotFoundException | SQLException | JRException ex) {
+            Logger.getLogger(ManagerMain2.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnIssueReportActionPerformed
 
     /**
      * @param args the command line arguments
@@ -250,11 +327,11 @@ public class ManagerMain2 extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddUser;
     private javax.swing.JButton btnGoodReceiveNote;
+    private javax.swing.JButton btnInventoryLevel;
+    private javax.swing.JButton btnIssueReport;
     private javax.swing.JButton btnLogout;
+    private javax.swing.JButton btnProductDescription;
     private javax.swing.JDesktopPane dskPane;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

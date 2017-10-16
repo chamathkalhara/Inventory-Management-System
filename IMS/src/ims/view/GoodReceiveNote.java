@@ -11,8 +11,10 @@ import ims.controller.ReportController;
 import ims.controller.SupplierController;
 import ims.model.Brand;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -164,8 +166,17 @@ public class GoodReceiveNote extends javax.swing.JInternalFrame {
                 ReportController reportController = new ReportController();
                 DefaultTableModel dtm = reportController.getGoodReceiveNoteReport(sid);
                 
+                String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+                
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("sName", String.valueOf(cmbSupplier.getSelectedItem()));
+                map.put("date", date);
+                double total = 0;
+                for(int i = 0; i< dtm.getRowCount() ; i++){
+                    total += Double.parseDouble(String.valueOf(dtm.getValueAt(i, 6)));
+                }
+                map.put("total", String.valueOf(total));
+                
                 JasperReport compileReport = JasperCompileManager.compileReport(getClass().getResourceAsStream("../report/GoodReceiveNote.jrxml"));
                 JRTableModelDataSource dateSource = new JRTableModelDataSource(dtm);
                 JasperPrint fillReport = JasperFillManager.fillReport(compileReport, map, dateSource);

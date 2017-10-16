@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d3310f46-367a-4522-bd58-894a52090764">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -15,115 +15,125 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch"/>
+		<band height="4" splitType="Stretch"/>
 	</title>
 	<pageHeader>
 		<band height="61" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="555" height="23" uuid="74013ac1-5245-4613-9692-037efc6cad07"/>
+				<reportElement x="0" y="0" width="555" height="23"/>
 				<textElement textAlignment="Center">
 					<font size="18"/>
 				</textElement>
 				<text><![CDATA[Seemarathna Brothers (Pvt) Ltd]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="23" width="555" height="26" uuid="302db5c7-8b8a-47b7-8415-08b38c100641"/>
+				<reportElement x="0" y="23" width="555" height="26"/>
 				<textElement textAlignment="Center">
 					<font size="16"/>
 				</textElement>
 				<text><![CDATA[Product Description]]></text>
 			</staticText>
+			<line>
+				<reportElement x="0" y="52" width="555" height="1"/>
+			</line>
 		</band>
 	</pageHeader>
 	<columnHeader>
 		<band height="32" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="111" height="20" uuid="9fcb0942-01cc-48cc-8373-ab83b7c1d93e"/>
+				<reportElement x="0" y="0" width="111" height="20"/>
+				<textElement/>
 				<text><![CDATA[Product ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="111" y="0" width="111" height="20" uuid="c022ae61-e885-4bcc-90a2-142fdcca810a"/>
+				<reportElement x="111" y="0" width="111" height="20"/>
+				<textElement/>
 				<text><![CDATA[Product Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="222" y="0" width="111" height="20" uuid="76be7950-0487-45c8-8f24-1c8634b97ceb"/>
+				<reportElement x="222" y="0" width="111" height="20"/>
+				<textElement/>
 				<text><![CDATA[Category]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="333" y="0" width="111" height="20" uuid="84d6e0b6-4936-49e6-8f85-c5bf8a4b7e77"/>
+				<reportElement x="333" y="0" width="111" height="20"/>
+				<textElement/>
 				<text><![CDATA[Brand]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="444" y="0" width="111" height="20" uuid="324d1545-bb6e-4175-9106-f34b49fefdde"/>
+				<reportElement x="444" y="0" width="111" height="20"/>
+				<textElement/>
 				<text><![CDATA[Product Type]]></text>
 			</staticText>
+			<line>
+				<reportElement x="0" y="24" width="555" height="1"/>
+			</line>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="31" splitType="Stretch">
+		<band height="26" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="111" height="20" uuid="2bbccaec-4f11-4899-9717-0f5adf20845e"/>
+				<reportElement x="0" y="0" width="111" height="20"/>
+				<textElement/>
 				<textFieldExpression><![CDATA[$F{pid}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="111" y="0" width="111" height="20" uuid="f86faa2f-cb38-4eb5-88d5-61e19f65c965"/>
+				<reportElement x="111" y="0" width="111" height="20"/>
+				<textElement/>
 				<textFieldExpression><![CDATA[$F{pName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="222" y="0" width="111" height="20" uuid="fb07db5c-6190-49d3-89c2-a4849110a506"/>
+				<reportElement x="222" y="0" width="111" height="20"/>
+				<textElement/>
 				<textFieldExpression><![CDATA[$F{cName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="333" y="0" width="111" height="20" uuid="8bf5f7d0-4b4d-4f70-8cde-5ff2fd69f003"/>
+				<reportElement x="333" y="0" width="111" height="20"/>
+				<textElement/>
 				<textFieldExpression><![CDATA[$F{bName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="444" y="0" width="111" height="20" uuid="4856384a-3748-4c56-a966-5597235c4128"/>
+				<reportElement x="444" y="0" width="111" height="20"/>
+				<textElement/>
 				<textFieldExpression><![CDATA[$F{ptName}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="7" splitType="Stretch"/>
-	</columnFooter>
-	<pageFooter>
-		<band height="48" splitType="Stretch">
+	<summary>
+		<band height="61" splitType="Stretch">
 			<staticText>
-				<reportElement x="24" y="22" width="100" height="20" uuid="c8191a5b-9f4c-410b-b984-cc4f09af1e1d"/>
+				<reportElement x="28" y="36" width="100" height="20"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[Issued By]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="179" y="22" width="100" height="20" uuid="5455967a-2b7b-4e1b-8181-e7e54baba06a"/>
+				<reportElement x="183" y="36" width="100" height="20"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[Checked By]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="422" y="22" width="100" height="20" uuid="ec7d5c7a-2940-4d28-bac3-74f38d03c897"/>
+				<reportElement x="426" y="36" width="100" height="20"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[Date]]></text>
 			</staticText>
 			<line>
-				<reportElement x="24" y="24" width="100" height="1" uuid="41e32989-e049-4319-8472-eab41a2573a3"/>
+				<reportElement x="28" y="38" width="100" height="1"/>
 				<graphicElement>
 					<pen lineStyle="Dashed"/>
 				</graphicElement>
 			</line>
 			<line>
-				<reportElement x="179" y="23" width="100" height="1" uuid="8a7b903f-2a45-40ed-b235-79c4fe36f93a"/>
+				<reportElement x="183" y="37" width="100" height="1"/>
 				<graphicElement>
 					<pen lineStyle="Dashed"/>
 				</graphicElement>
 			</line>
 			<line>
-				<reportElement x="422" y="22" width="100" height="1" uuid="dd58210a-6480-442c-b0bc-376b948f4a0f"/>
+				<reportElement x="426" y="36" width="100" height="1"/>
 				<graphicElement>
 					<pen lineStyle="Dashed"/>
 				</graphicElement>
 			</line>
 		</band>
-	</pageFooter>
-	<summary>
-		<band height="42" splitType="Stretch"/>
 	</summary>
 </jasperReport>

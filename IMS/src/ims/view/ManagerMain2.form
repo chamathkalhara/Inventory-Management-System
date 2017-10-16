@@ -36,9 +36,9 @@
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                       <Component id="btnLogout" min="-2" pref="118" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jButton5" max="32767" attributes="0"/>
-                  <Component id="jButton4" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jButton3" alignment="0" max="32767" attributes="0"/>
+                  <Component id="btnProductDescription" max="32767" attributes="0"/>
+                  <Component id="btnInventoryLevel" alignment="0" max="32767" attributes="0"/>
+                  <Component id="btnIssueReport" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="dskPane" max="32767" attributes="0"/>
@@ -57,11 +57,11 @@
                       <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                       <Component id="btnGoodReceiveNote" min="-2" pref="57" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jButton3" min="-2" pref="50" max="-2" attributes="0"/>
+                      <Component id="btnIssueReport" min="-2" pref="50" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jButton4" min="-2" pref="53" max="-2" attributes="0"/>
+                      <Component id="btnInventoryLevel" min="-2" pref="53" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jButton5" min="-2" pref="52" max="-2" attributes="0"/>
+                      <Component id="btnProductDescription" min="-2" pref="52" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                       <Component id="btnLogout" min="-2" pref="57" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="217" max="32767" attributes="0"/>
@@ -172,7 +172,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGoodReceiveNoteActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton3">
+    <Component class="javax.swing.JButton" name="btnIssueReport">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="66" red="33" type="rgb"/>
@@ -185,8 +185,11 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Good Issue Report"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnIssueReportActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton4">
+    <Component class="javax.swing.JButton" name="btnInventoryLevel">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="66" red="33" type="rgb"/>
@@ -199,8 +202,11 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Inventory Level Report"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnInventoryLevelActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton5">
+    <Component class="javax.swing.JButton" name="btnProductDescription">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="66" red="33" type="rgb"/>
@@ -213,6 +219,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Product Description Report"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnProductDescriptionActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnLogout">
       <Properties>

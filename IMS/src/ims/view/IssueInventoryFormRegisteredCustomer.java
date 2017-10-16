@@ -18,6 +18,8 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -390,32 +392,33 @@ public class IssueInventoryFormRegisteredCustomer extends javax.swing.JInternalF
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIssueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIssueActionPerformed
-        int count = table2.getRowCount();
-        String id = txtSalesOrderId.getText();
-        String cid = String.valueOf(cmbCustomerId.getSelectedItem());
-        String oDate = txtSalesOrderDate.getText();
+        try {
+            int count = table2.getRowCount();
+            String id = txtSalesOrderId.getText();
+            String cid = String.valueOf(cmbCustomerId.getSelectedItem());
+            String oDate = txtSalesOrderDate.getText();
 
-        for (int i = 0; i < count; i++) {
-            try {
+            for (int i = 0; i < count; i++) {
+
                 String productId = String.valueOf(table2.getValueAt(i, 0));
                 Integer qty = Integer.valueOf(String.valueOf(table2.getValueAt(i, 2)));
                 IssueRegistered issueRegistered = new IssueRegistered(id, cid, productId, oDate, qty);
                 issueController.addIssueInventryRegistered(issueRegistered);
 
-                JOptionPane.showMessageDialog(this, "Order issued successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-
-                dtm1.setRowCount(0);
-                dtm2.setRowCount(0);
-
-                txtSalesOrderId.setText(issueController.getNewId());
-                txtCustomerName.setText("");
-                cmbCustomerId.setSelectedIndex(-1);
-                cmbProductId.setSelectedIndex(-1);
-                txtQty.setText("");
-                txtTotal.setText("");
-            } catch (SQLException | ClassNotFoundException ex) {
-                JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
             }
+
+            dtm1.setRowCount(0);
+            dtm2.setRowCount(0);
+
+            txtSalesOrderId.setText(issueController.getNewId());
+            txtCustomerName.setText("");
+            cmbCustomerId.setSelectedIndex(-1);
+            cmbProductId.setSelectedIndex(-1);
+            txtQty.setText("");
+            txtTotal.setText("");
+            JOptionPane.showMessageDialog(this, "Order issued successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(IssueInventoryFormRegisteredCustomer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnIssueActionPerformed
 

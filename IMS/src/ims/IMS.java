@@ -6,6 +6,7 @@
 package ims;
 
 import ims.view.ManagerMain2;
+import ims.view.StoreKeeperMain;
 import javax.swing.JFrame;
 
 /**
