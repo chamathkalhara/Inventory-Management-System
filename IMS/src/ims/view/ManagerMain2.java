@@ -6,15 +6,10 @@
 package ims.view;
 
 import ims.controller.ReportController;
-import java.awt.BorderLayout;
-import java.awt.Container;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JInternalFrame;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -22,7 +17,6 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
-import net.sf.jasperreports.view.JRViewer;
 import net.sf.jasperreports.view.JasperViewer;
 
 /**
@@ -36,7 +30,7 @@ public class ManagerMain2 extends javax.swing.JFrame {
      */
     public ManagerMain2() {
         initComponents();
-        this.setLocationRelativeTo(null);
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -247,7 +241,11 @@ public class ManagerMain2 extends javax.swing.JFrame {
             JasperReport compileReport = JasperCompileManager.compileReport(getClass().getResourceAsStream("../report/ProductDescription.jrxml"));
             JRTableModelDataSource dateSource = new JRTableModelDataSource(dtm);
             JasperPrint fillReport = JasperFillManager.fillReport(compileReport, map, dateSource);
-            JasperViewer.viewReport(fillReport, false);
+            
+            JasperViewer jasperViewer = new JasperViewer(fillReport,false);
+             jasperViewer.toFront();
+             jasperViewer.setAlwaysOnTop(true);
+             jasperViewer.setVisible(true);
         } catch (ClassNotFoundException | SQLException | JRException ex) {
             Logger.getLogger(ManagerMain2.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -262,7 +260,11 @@ public class ManagerMain2 extends javax.swing.JFrame {
             JasperReport compileReport = JasperCompileManager.compileReport(getClass().getResourceAsStream("../report/InventoryLevel.jrxml"));
             JRTableModelDataSource dateSource = new JRTableModelDataSource(dtm);
             JasperPrint fillReport = JasperFillManager.fillReport(compileReport, map, dateSource);
-            JasperViewer.viewReport(fillReport, false);
+            
+            JasperViewer jasperViewer = new JasperViewer(fillReport,false);
+             jasperViewer.toFront();
+             jasperViewer.setAlwaysOnTop(true);
+             jasperViewer.setVisible(true);
         } catch (ClassNotFoundException | SQLException | JRException ex) {
             Logger.getLogger(ManagerMain2.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -277,9 +279,23 @@ public class ManagerMain2 extends javax.swing.JFrame {
             JasperReport compileReport = JasperCompileManager.compileReport(getClass().getResourceAsStream("../report/SalesOrderReport.jrxml"));
             JRTableModelDataSource dateSource = new JRTableModelDataSource(dtm);
             JasperPrint fillReport = JasperFillManager.fillReport(compileReport, map, dateSource);
-            JasperViewer.viewReport(fillReport, false);
-
-
+            //JasperViewer.viewReport(fillReport, false);
+             //JRViewer jRViewer = new JRViewer(fillReport);
+             
+             JasperViewer jasperViewer = new JasperViewer(fillReport,false);
+             jasperViewer.toFront();
+             jasperViewer.setAlwaysOnTop(true);
+             jasperViewer.setVisible(true);
+             
+//             JFrame frontFrame = new JFrame();
+//             frontFrame.getContentPane().add(jRViewer);
+//             frontFrame.setSize();
+//             frontFrame.setLocationRelativeTo(null);
+//                         
+//             frontFrame.toFront();
+//             frontFrame.setAlwaysOnTop(true);
+//             frontFrame.setVisible(true);
+             
         } catch (ClassNotFoundException | SQLException | JRException ex) {
             Logger.getLogger(ManagerMain2.class.getName()).log(Level.SEVERE, null, ex);
         }

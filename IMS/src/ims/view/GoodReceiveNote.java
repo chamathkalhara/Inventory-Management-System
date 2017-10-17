@@ -160,28 +160,32 @@ public class GoodReceiveNote extends javax.swing.JInternalFrame {
 
     private void btnReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
         if (cmbSupplier.getSelectedIndex() != -1) {
-            
+
             try {
                 String sid = supplierController.getIdByName(String.valueOf(cmbSupplier.getSelectedItem()));
                 ReportController reportController = new ReportController();
                 DefaultTableModel dtm = reportController.getGoodReceiveNoteReport(sid);
-                
+
                 String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-                
+
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("sName", String.valueOf(cmbSupplier.getSelectedItem()));
                 map.put("date", date);
                 double total = 0;
-                for(int i = 0; i< dtm.getRowCount() ; i++){
+                for (int i = 0; i < dtm.getRowCount(); i++) {
                     total += Double.parseDouble(String.valueOf(dtm.getValueAt(i, 6)));
                 }
                 map.put("total", String.valueOf(total));
-                
+
                 JasperReport compileReport = JasperCompileManager.compileReport(getClass().getResourceAsStream("../report/GoodReceiveNote.jrxml"));
                 JRTableModelDataSource dateSource = new JRTableModelDataSource(dtm);
                 JasperPrint fillReport = JasperFillManager.fillReport(compileReport, map, dateSource);
-                JasperViewer.viewReport(fillReport, false);
-                
+
+                JasperViewer jasperViewer = new JasperViewer(fillReport, false);
+                jasperViewer.toFront();
+                jasperViewer.setAlwaysOnTop(true);
+                jasperViewer.setVisible(true);
+
             } catch (ClassNotFoundException | SQLException | JRException ex) {
                 Logger.getLogger(GoodReceiveNote.class.getName()).log(Level.SEVERE, null, ex);
             }
