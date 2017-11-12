@@ -97,6 +97,7 @@ public class ReceivingGood extends javax.swing.JInternalFrame {
         jLabel10 = new javax.swing.JLabel();
         txtQtyReceived = new javax.swing.JTextField();
         cmbProductName = new javax.swing.JComboBox<>();
+        jLabel11 = new javax.swing.JLabel();
 
         setClosable(true);
 
@@ -153,7 +154,7 @@ public class ReceivingGood extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Purchase Order ID", "Supplier Name", "Product Name", "Quantity Ordered", "Quantity Recieved", "Recieved Date", "Unit Price", "Total Price"
+                "Purchase Order ID", "Supplier Name", "Product Name", "Quantity Ordered", "Quantity Recieved", "Recieved Date", "Unit Price (Rs)", "Total Price (Rs)"
             }
         ) {
             Class[] types = new Class [] {
@@ -225,6 +226,11 @@ public class ReceivingGood extends javax.swing.JInternalFrame {
                 cmbPoidItemStateChanged(evt);
             }
         });
+        cmbPoid.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbPoidActionPerformed(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -239,6 +245,9 @@ public class ReceivingGood extends javax.swing.JInternalFrame {
                 cmbProductNameItemStateChanged(evt);
             }
         });
+
+        jLabel11.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel11.setText("RS :");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -290,8 +299,11 @@ public class ReceivingGood extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txtQtyOrdered, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
-                                    .addComponent(txtUnitPrice, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(cmbProductName, 0, 235, Short.MAX_VALUE)))))
+                                    .addComponent(cmbProductName, 0, 235, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel11)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtUnitPrice))))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(49, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 947, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -318,7 +330,8 @@ public class ReceivingGood extends javax.swing.JInternalFrame {
                         .addGap(16, 16, 16)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
-                            .addComponent(txtUnitPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtUnitPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel11)))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -399,6 +412,9 @@ public class ReceivingGood extends javax.swing.JInternalFrame {
             try {
                 String supplierName = purchaseOrderController.getSupplierName(poid);
                 txtSupplierName.setText(supplierName);
+                
+                ArrayList<String> allProductNames = productController.getAllProductNamesForPOID(poid);
+                cmbProductName.setModel(new DefaultComboBoxModel(allProductNames.toArray()));
 
                 String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
                 txtReceivedDate.setText(date);
@@ -452,6 +468,10 @@ public class ReceivingGood extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
+    private void cmbPoidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbPoidActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbPoidActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -462,6 +482,7 @@ public class ReceivingGood extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> cmbProductName;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

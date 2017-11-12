@@ -222,41 +222,49 @@ public class Login2 extends javax.swing.JFrame {
         String userName = txtUsername.getText();
         char[] password = txtPassword.getPassword();
         boolean verified = false;
-        LoginController loginController = new LoginController();
-        try {
-            User user = loginController.getUser(userName);
-            if(user.getPassword().equals(String.valueOf(password))){
-                verified = true;
-            }
-            if(verified){
-                lblError.setText("");
-                String type = user.getType();
-                switch(type){
-                    case "Manager" :
-                        ManagerMain2 managerMain = new ManagerMain2();
-                        managerMain.setVisible(true);
-                        this.dispose();
-                        break;
-                    case "Cashier" :
-                        CashierMain cashierMain = new CashierMain();
-                        cashierMain.setVisible(true);
-                        this.dispose();
-                        break;
-                    case "Store Keeper" :
-                        StoreKeeperMain storeKeeperMain = new StoreKeeperMain();
-                        storeKeeperMain.setVisible(true);
-                        this.dispose();
-                        break;                     
+
+        if (!userName.equals("") && password.length != 0) {
+            LoginController loginController = new LoginController();
+            try {
+                User user = loginController.getUser(userName);
+                if (user.getPassword() != null && user.getPassword().equals(String.valueOf(password))) {
+                    verified = true;
                 }
-            }else{
-                lblError.setText("Wrong username or password");
-                txtUsername.setText("");
-                txtPassword.setText("");
-                txtUsername.requestFocus();
+                if (verified) {
+                    lblError.setText("");
+                    String type = user.getType();
+                    switch (type) {
+                        case "Manager":
+                            this.dispose();
+                            ManagerMain2 managerMain = new ManagerMain2();
+                            managerMain.setVisible(true);
+                            
+                            break;
+                        case "Cashier":
+                            this.dispose();
+                            CashierMain cashierMain = new CashierMain();
+                            cashierMain.setVisible(true);
+                            
+                            break;
+                        case "Store Keeper":
+                            this.dispose();
+                            StoreKeeperMain storeKeeperMain = new StoreKeeperMain();
+                            storeKeeperMain.setVisible(true);
+                           
+                            break;
+                    }
+                } else {
+                    lblError.setText("Wrong username or password");
+                    txtUsername.setText("");
+                    txtPassword.setText("");
+                    txtUsername.requestFocus();
+                }
+
+            } catch (SQLException | ClassNotFoundException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-            
-        } catch (SQLException | ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            lblError.setText("Username or Password can not be empty");
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 

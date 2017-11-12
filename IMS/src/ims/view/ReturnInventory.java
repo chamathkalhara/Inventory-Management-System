@@ -83,6 +83,7 @@ public class ReturnInventory extends javax.swing.JInternalFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
         btnClear = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
 
         setClosable(true);
 
@@ -105,7 +106,7 @@ public class ReturnInventory extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(7, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
@@ -179,7 +180,7 @@ public class ReturnInventory extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Reciept ID", "Date", "Product Name", "Quantity Return", "Unit Price"
+                "Reciept ID", "Date", "Product Name", "Quantity Return", "Unit Price (Rs)"
             }
         ) {
             Class[] types = new Class [] {
@@ -207,6 +208,9 @@ public class ReturnInventory extends javax.swing.JInternalFrame {
                 btnClearActionPerformed(evt);
             }
         });
+
+        jLabel11.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel11.setText("RS :");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -238,9 +242,12 @@ public class ReturnInventory extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtUnitPrice, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
-                            .addComponent(txtProductName)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtProductName, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtUnitPrice))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -277,7 +284,8 @@ public class ReturnInventory extends javax.swing.JInternalFrame {
                         .addGap(53, 53, 53)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtUnitPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel11)))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -306,14 +314,24 @@ public class ReturnInventory extends javax.swing.JInternalFrame {
         if (cmbProductId.getSelectedIndex() == -1 || txtQty.getText().equals("") || txtUnitPrice.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Fill all required fields", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            int qty = Integer.valueOf(txtQty.getText());
-            String id = txtRecieptId.getText();
-            double unitPrice = Double.parseDouble(txtUnitPrice.getText());
-            String curDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-            String productName = txtProductName.getText();
+            try {
+                int qty = Integer.valueOf(txtQty.getText());
+                String id = txtRecieptId.getText();
+                double unitPrice = Double.parseDouble(txtUnitPrice.getText());
+                String curDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+                String productName = txtProductName.getText();
 
-            DefaultTableModel dtm = (DefaultTableModel) table.getModel();
-            dtm.addRow(new Object[]{id, curDate, productName, qty, unitPrice});
+                if (stockProductController.getStockProductByPid(productController.getIdByName(productName)).getQtyAvailable() < qty) {
+                    JOptionPane.showMessageDialog(this, "Return Qty should be less than available qty "+stockProductController.getStockProductByPid(productController.getIdByName(productName)).getQtyAvailable(), "Error", JOptionPane.ERROR_MESSAGE);
+                    txtQty.requestFocus();
+                } else {
+                    DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+                    dtm.addRow(new Object[]{id, curDate, productName, qty, unitPrice});
+                }
+            } catch (ClassNotFoundException | SQLException ex) {
+                Logger.getLogger(ReturnInventory.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -399,6 +417,7 @@ public class ReturnInventory extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> cmbProductId;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

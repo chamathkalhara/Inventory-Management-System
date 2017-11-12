@@ -103,6 +103,7 @@ public class ViewStock extends javax.swing.JInternalFrame {
         btnCancel = new javax.swing.JButton();
         txtQty = new javax.swing.JTextField();
         btnDelete = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
 
         setClosable(true);
 
@@ -154,7 +155,7 @@ public class ViewStock extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Purchase Order ID", "Supplier Name", "Product Name", "Quantity Available", "Quantity Added", "Recieved Date", "Unit Price", "Exp Date"
+                "Purchase Order ID", "Supplier Name", "Product Name", "Quantity Available", "Quantity Added", "Recieved Date", "Unit Price (Rs)", "Exp Date"
             }
         ) {
             Class[] types = new Class [] {
@@ -260,6 +261,9 @@ public class ViewStock extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel11.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel11.setText("RS :");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -311,20 +315,21 @@ public class ViewStock extends javax.swing.JInternalFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(cmbProductName, javax.swing.GroupLayout.Alignment.TRAILING, 0, 235, Short.MAX_VALUE)
                                 .addComponent(txtAvailabaleQty, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(txtUnitPrice, javax.swing.GroupLayout.Alignment.TRAILING)))))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel11)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtUnitPrice))))))
                 .addGap(43, 43, 43))
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(666, Short.MAX_VALUE)
                         .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnAddStock, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 960, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 960, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -355,7 +360,8 @@ public class ViewStock extends javax.swing.JInternalFrame {
                     .addComponent(jLabel7)
                     .addComponent(txtUnitPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
-                    .addComponent(txtExpDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtExpDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -388,12 +394,12 @@ public class ViewStock extends javax.swing.JInternalFrame {
 
                     StockProduct stockProduct = new StockProduct(spid, pid, unitPrice, expDate, qtyAvailable + qty);
                     int result;
-                    if(qtyAvailable == 0){
+                    if (qtyAvailable == 0) {
                         result = stockProductController.addStockProduct(stockProduct);
-                    }else{
+                    } else {
                         result = stockProductController.updateStockProduct(stockProduct);
                     }
-                    
+
                     if (result < 1) {
                         comp = false;
                         break;
@@ -467,6 +473,9 @@ public class ViewStock extends javax.swing.JInternalFrame {
                 String rDate = goodsReceiveController.getReceivedDate(poid);
                 txtRecievedDate.setText(rDate);
 
+                ArrayList<String> allProductNames = productController.getAllProductNamesForPOID(poid);
+                cmbProductName.setModel(new DefaultComboBoxModel(allProductNames.toArray()));
+
                 String supplierName = purchaseOrderController.getSupplierName(poid);
                 txtSupplierName.setText(supplierName);
 
@@ -515,6 +524,7 @@ public class ViewStock extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> cmbProductName;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

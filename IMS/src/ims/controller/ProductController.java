@@ -35,7 +35,20 @@ public class ProductController {
         }
         return productList;
     }
+    
+    public ArrayList<String> getAllProductNamesForPOID(String poid) throws ClassNotFoundException, SQLException {
+        Connection connection = DBConnection.getInstance().getConnection();
+        Statement statement = connection.createStatement();
+        String sql = "select p.name from product p , purchaseorder po where po.pid = p.id AND po.id = '"+poid+"'";
+        ResultSet resultSet = statement.executeQuery(sql);
+        ArrayList<String> productList = new ArrayList<>();
 
+        while (resultSet.next()) {
+            productList.add(resultSet.getString(1));
+        }
+        return productList;
+    }
+    
     public ArrayList<String> getAllProductId() throws ClassNotFoundException, SQLException {
         Connection connection = DBConnection.getInstance().getConnection();
         Statement statement = connection.createStatement();

@@ -110,6 +110,7 @@ public class IssueInventoryFormRegisteredCustomer extends javax.swing.JInternalF
         jSeparator1 = new javax.swing.JSeparator();
         jLabel7 = new javax.swing.JLabel();
         cmbCustomerId = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
 
         setClosable(true);
 
@@ -156,7 +157,7 @@ public class IssueInventoryFormRegisteredCustomer extends javax.swing.JInternalF
 
             },
             new String [] {
-                "Product ID", "Product Name", "Quantity Issued", "Exp Date", "Total Price"
+                "Product ID", "Product Name", "Quantity Issued", "Exp Date", "Total Price (Rs)"
             }
         ) {
             Class[] types = new Class [] {
@@ -238,7 +239,7 @@ public class IssueInventoryFormRegisteredCustomer extends javax.swing.JInternalF
 
             },
             new String [] {
-                "Product ID", "Product Name", "Available Quantity", "EXP Date", "Unit Price"
+                "Product ID", "Product Name", "Available Quantity", "EXP Date", "Unit Price (Rs)"
             }
         ) {
             Class[] types = new Class [] {
@@ -260,7 +261,7 @@ public class IssueInventoryFormRegisteredCustomer extends javax.swing.JInternalF
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel5.setText("Total :");
+        jLabel5.setText("Total ");
 
         txtTotal.setEditable(false);
         txtTotal.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -278,6 +279,9 @@ public class IssueInventoryFormRegisteredCustomer extends javax.swing.JInternalF
             }
         });
 
+        jLabel8.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel8.setText("RS :");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -291,9 +295,11 @@ public class IssueInventoryFormRegisteredCustomer extends javax.swing.JInternalF
                         .addGap(18, 18, 18)
                         .addComponent(btnIssue, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(642, 642, 642)
+                        .addGap(609, 609, 609)
                         .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(106, 106, 106)
@@ -380,7 +386,8 @@ public class IssueInventoryFormRegisteredCustomer extends javax.swing.JInternalF
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnIssue, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -508,6 +515,7 @@ public class IssueInventoryFormRegisteredCustomer extends javax.swing.JInternalF
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
