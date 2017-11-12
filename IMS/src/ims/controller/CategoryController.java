@@ -64,7 +64,11 @@ public class CategoryController {
         Statement statement = connection.createStatement();
         String sql = "select id from category where name = '"+name+"'";
         ResultSet result = statement.executeQuery(sql);
-        result.next();
-        return result.getString(1);
+        if(result.next()){
+            return result.getString(1);
+        }else{
+            return "";
+        }
+        
     }
 }

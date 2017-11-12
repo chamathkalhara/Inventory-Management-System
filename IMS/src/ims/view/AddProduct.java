@@ -84,7 +84,7 @@ public class AddProduct extends javax.swing.JInternalFrame {
             ArrayList<Product> allProducts = productController.getAllProducts();
             dtm = (DefaultTableModel) table.getModel();
             for (Product product : allProducts) {
-                dtm.addRow(new Object[]{product.getId(), product.getName(), product.getCid(), product.getBid(), product.getPtid(), product.getSid()});
+                dtm.addRow(new Object[]{product.getId(), product.getName(), product.getCid(), product.getBid(), product.getPtid(), product.getSid(), product.getSaftyStock()});
             }
 
             dtmVector = (Vector) dtm.getDataVector().clone();
@@ -219,14 +219,14 @@ public class AddProduct extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Product ID", "Product Name", "Category Name", "Brand Name", "Product Type", "Supplier ID"
+                "Product ID", "Product Name", "Category Name", "Brand Name", "Product Type", "Supplier ID", "Safty Stock"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -468,13 +468,13 @@ public class AddProduct extends javax.swing.JInternalFrame {
                         dtm = (DefaultTableModel) table.getModel();
                         dtm.setRowCount(0);
                         for (Product product : allProducts) {
-                            dtm.addRow(new Object[]{product.getId(), product.getName(), product.getCid(), product.getBid(), product.getPtid(), product.getSid()});
+                            dtm.addRow(new Object[]{product.getId(), product.getName(), product.getCid(), product.getBid(), product.getPtid(), product.getSid(), product.getSaftyStock()});
                         }
                         dtmVector = (Vector) dtm.getDataVector().clone();
                     } else {
                         JOptionPane.showMessageDialog(this, "Product Update failed", "Error", JOptionPane.ERROR_MESSAGE);
                     }
-                } else {
+                } else if (productController.getIdByName(name).equals("")) {
                     int result = productController.addProduct(product1);
                     if (result > 0) {
                         JOptionPane.showMessageDialog(this, "Product added successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -490,12 +490,15 @@ public class AddProduct extends javax.swing.JInternalFrame {
                         dtm = (DefaultTableModel) table.getModel();
                         dtm.setRowCount(0);
                         for (Product product : allProducts) {
-                            dtm.addRow(new Object[]{product.getId(), product.getName(), product.getCid(), product.getBid(), product.getPtid(), product.getSid()});
+                            dtm.addRow(new Object[]{product.getId(), product.getName(), product.getCid(), product.getBid(), product.getPtid(), product.getSid(), product.getSaftyStock()});
                         }
                         dtmVector = (Vector) dtm.getDataVector().clone();
                     } else {
                         JOptionPane.showMessageDialog(this, "Product added failed", "Error", JOptionPane.ERROR_MESSAGE);
                     }
+                }else{
+                    JOptionPane.showMessageDialog(this, "Product "+name+" is already exist", "Failed", JOptionPane.ERROR_MESSAGE);
+                    txtProductName.requestFocus();
                 }
             } catch (SQLException | ClassNotFoundException ex) {
                 ex.printStackTrace();
@@ -573,7 +576,7 @@ public class AddProduct extends javax.swing.JInternalFrame {
                     ArrayList<Product> allProducts = productController.getAllProducts();
                     dtm = (DefaultTableModel) table.getModel();
                     for (Product product : allProducts) {
-                        dtm.addRow(new Object[]{product.getId(), product.getName(), product.getCid(), product.getBid(), product.getPtid(), product.getSid()});
+                        dtm.addRow(new Object[]{product.getId(), product.getName(), product.getCid(), product.getBid(), product.getPtid(), product.getSid(), product.getSaftyStock()});
                     }
 
                     dtmVector = (Vector) dtm.getDataVector().clone();

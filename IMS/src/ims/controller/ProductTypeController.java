@@ -18,53 +18,56 @@ import java.util.ArrayList;
  * @author chamath
  */
 public class ProductTypeController {
-    
-    public ArrayList<String> getAllProductTypeNames() throws ClassNotFoundException, SQLException{
+
+    public ArrayList<String> getAllProductTypeNames() throws ClassNotFoundException, SQLException {
         Connection connection = DBConnection.getInstance().getConnection();
         Statement statement = connection.createStatement();
         String sql = "select * from productType";
         ResultSet resultSet = statement.executeQuery(sql);
         ArrayList<String> productTypeList = new ArrayList<>();
-        
+
         while (resultSet.next()) {
             productTypeList.add(resultSet.getString(2));
         }
         return productTypeList;
-    } 
-    
-    public int addproductTypeList(ProductType productType) throws SQLException, ClassNotFoundException{
+    }
+
+    public int addproductTypeList(ProductType productType) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getInstance().getConnection();
         Statement statement = connection.createStatement();
-        String sql = "insert into productType values ('"+productType.getId()+"','"+productType.getName()+"')";
+        String sql = "insert into productType values ('" + productType.getId() + "','" + productType.getName() + "')";
         int result = statement.executeUpdate(sql);
         return result;
     }
-    
-    public String getNewId() throws ClassNotFoundException, SQLException{
+
+    public String getNewId() throws ClassNotFoundException, SQLException {
         String lastId = getLastId();
         String substring = lastId.substring(3);
         int lastIdInt = Integer.parseInt(substring);
-        return "PRT"+(lastIdInt+1);
+        return "PRT" + (lastIdInt + 1);
     }
-    
-    private String getLastId() throws ClassNotFoundException, SQLException{
+
+    private String getLastId() throws ClassNotFoundException, SQLException {
         Connection connection = DBConnection.getInstance().getConnection();
         Statement statement = connection.createStatement();
         String sql = "select id from productType order by id desc limit 1";
         ResultSet result = statement.executeQuery(sql);
-        if(result.next()){
+        if (result.next()) {
             return result.getString(1);
-        }else{
+        } else {
             return "PRT000";
         }
     }
-    
-    public String getIdByName(String name) throws ClassNotFoundException, SQLException{
+
+    public String getIdByName(String name) throws ClassNotFoundException, SQLException {
         Connection connection = DBConnection.getInstance().getConnection();
         Statement statement = connection.createStatement();
-        String sql = "select id from productType where name = '"+name+"'";
+        String sql = "select id from productType where name = '" + name + "'";
         ResultSet result = statement.executeQuery(sql);
-        result.next();
-        return result.getString(1);
+        if (result.next()) {
+            return result.getString(1);
+        } else {
+            return "";
+        }
     }
 }

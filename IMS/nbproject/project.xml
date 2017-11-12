@@ -11,5 +11,8 @@
                 <root id="test.src.dir"/>
             </test-roots>
         </data>
+        <libraries xmlns="http://www.netbeans.org/ns/ant-project-libraries/1">
+            <definitions>C:\Users\Chamath\Desktop\project mangement\1383067774_iReport-5.5.0-plugin\jasper\lib\nblibraries.properties</definitions>
+        </libraries>
     </configuration>
 </project>

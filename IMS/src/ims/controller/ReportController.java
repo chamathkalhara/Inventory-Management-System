@@ -67,12 +67,13 @@ public class ReportController {
 
         ProductController productController = new ProductController();
         
-        Object[] column = {"pid", "pName", "aQty", "expDate", "uPrice"};
+        Object[] column = {"pid", "pName", "aQty","sStock", "expDate", "uPrice"};
 
         Object[][] data = new Object[allProducts.size()][5];
         for (int i = 0; i < allProducts.size(); i++) {
             String pid = productController.getIdByName(allProducts.get(i).getPid());
-            data[i] = new Object[]{pid, allProducts.get(i).getPid(), allProducts.get(i).getQtyAvailable(), allProducts.get(i).getExpDate(), allProducts.get(i).getUnitPrice()};
+            Product product = productController.getProductById(pid);
+            data[i] = new Object[]{pid, allProducts.get(i).getPid(), allProducts.get(i).getQtyAvailable(),product.getSaftyStock(), allProducts.get(i).getExpDate(), allProducts.get(i).getUnitPrice()};
 
         }
         DefaultTableModel dtm = new DefaultTableModel(data, column);

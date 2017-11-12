@@ -232,20 +232,21 @@ public class Login2 extends javax.swing.JFrame {
                 lblError.setText("");
                 String type = user.getType();
                 switch(type){
-                    case "manager" :
+                    case "Manager" :
                         ManagerMain2 managerMain = new ManagerMain2();
                         managerMain.setVisible(true);
+                        this.dispose();
                         break;
-                    case "cashier" :
+                    case "Cashier" :
                         CashierMain cashierMain = new CashierMain();
                         cashierMain.setVisible(true);
+                        this.dispose();
                         break;
-                    case "storekeeper" :
+                    case "Store Keeper" :
                         StoreKeeperMain storeKeeperMain = new StoreKeeperMain();
                         storeKeeperMain.setVisible(true);
-                        break;
-                    default:
                         this.dispose();
+                        break;                     
                 }
             }else{
                 lblError.setText("Wrong username or password");

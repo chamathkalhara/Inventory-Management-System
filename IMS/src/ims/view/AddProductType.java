@@ -175,19 +175,24 @@ public class AddProductType extends javax.swing.JInternalFrame {
                 String newId = productTypeController.getNewId();
                 String name = txtNewProductType.getText();
 
-                ProductType productType = new ProductType(newId, name);
-                int result = productTypeController.addproductTypeList(productType);
-                if (result > 0) {
-                    JOptionPane.showMessageDialog(this, "New Product Type successfully added", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    ArrayList<String> allProductTypeNames = productTypeController.getAllProductTypeNames();
-                    Object[] toArray = allProductTypeNames.toArray();
+                if (productTypeController.getIdByName(name).equals("")) {
+                    ProductType productType = new ProductType(newId, name);
+                    int result = productTypeController.addproductTypeList(productType);
+                    if (result > 0) {
+                        JOptionPane.showMessageDialog(this, "New Product Type successfully added", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        ArrayList<String> allProductTypeNames = productTypeController.getAllProductTypeNames();
+                        Object[] toArray = allProductTypeNames.toArray();
 
-                    String stringArray[] = Arrays.asList(toArray).toArray(new String[0]);
-                    lstProductType.setListData(stringArray);
-                    txtNewProductType.setText("");
-                    txtNewProductType.requestFocus();
+                        String stringArray[] = Arrays.asList(toArray).toArray(new String[0]);
+                        lstProductType.setListData(stringArray);
+                        txtNewProductType.setText("");
+                        txtNewProductType.requestFocus();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Product Type added failed", "Failed", JOptionPane.ERROR_MESSAGE);
+                        txtNewProductType.setText("");
+                    }
                 } else {
-                    JOptionPane.showMessageDialog(this, "Product Type added failed", "Failed", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Product Type " + name + " is already exist", "Failed", JOptionPane.ERROR_MESSAGE);
                     txtNewProductType.setText("");
                 }
             } catch (ClassNotFoundException | SQLException ex) {

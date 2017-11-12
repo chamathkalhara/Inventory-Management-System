@@ -129,11 +129,11 @@ public class ProductController {
         int result = statement.executeUpdate(sql);
         return result;
     }
-    
+
     public int updateProduct(Product product) throws ClassNotFoundException, SQLException {
         Connection connection = DBConnection.getInstance().getConnection();
         Statement statement = connection.createStatement();
-        String sql = "update product set name = '"+product.getName()+"', cid =  '" + categoryController.getIdByName(product.getCid()) + "', bid = '" + brandController.getIdByName(product.getBid()) + "', ptid = '" + productTypeController.getIdByName(product.getPtid()) + "', sid = '" + product.getSid() + "' where id = '" + product.getId() + "'";
+        String sql = "update product set name = '" + product.getName() + "', cid =  '" + categoryController.getIdByName(product.getCid()) + "', bid = '" + brandController.getIdByName(product.getBid()) + "', ptid = '" + productTypeController.getIdByName(product.getPtid()) + "', sid = '" + product.getSid() + "' where id = '" + product.getId() + "'";
         int result = statement.executeUpdate(sql);
         return result;
     }
@@ -162,7 +162,10 @@ public class ProductController {
         Statement statement = connection.createStatement();
         String sql = "select id from product where name = '" + name + "'";
         ResultSet result = statement.executeQuery(sql);
-        result.next();
-        return result.getString(1);
+        if (result.next()) {
+            return result.getString(1);
+        } else {
+            return "";
+        }
     }
 }

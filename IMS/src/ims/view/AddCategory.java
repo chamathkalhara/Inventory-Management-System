@@ -298,18 +298,23 @@ public class AddCategory extends javax.swing.JInternalFrame {
                 String name = txtNewCategory.getText();
 
                 Category category = new Category(newId, name);
-                int result = categoryController.addCategory(category);
-                if (result > 0) {
-                    JOptionPane.showMessageDialog(this, "New Category successfully added", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    ArrayList<String> allCategoryNames = categoryController.getAllCategoryNames();
-                    Object[] toArray = allCategoryNames.toArray();
+                if (categoryController.getIdByName(name).equals("")) {
+                    int result = categoryController.addCategory(category);
+                    if (result > 0) {
+                        JOptionPane.showMessageDialog(this, "New Category successfully added", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        ArrayList<String> allCategoryNames = categoryController.getAllCategoryNames();
+                        Object[] toArray = allCategoryNames.toArray();
 
-                    String stringArray[] = Arrays.asList(toArray).toArray(new String[0]);
-                    lstCategory.setListData(stringArray);
-                    txtNewCategory.setText("");
-                    txtNewCategory.requestFocus();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Category added failed", "Failed", JOptionPane.ERROR_MESSAGE);
+                        String stringArray[] = Arrays.asList(toArray).toArray(new String[0]);
+                        lstCategory.setListData(stringArray);
+                        txtNewCategory.setText("");
+                        txtNewCategory.requestFocus();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Category added failed", "Failed", JOptionPane.ERROR_MESSAGE);
+                        txtNewCategory.setText("");
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(this, "Category " + name + " is already exist", "Failed", JOptionPane.ERROR_MESSAGE);
                     txtNewCategory.setText("");
                 }
             } catch (ClassNotFoundException | SQLException ex) {

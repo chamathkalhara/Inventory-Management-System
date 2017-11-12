@@ -176,18 +176,23 @@ public class AddBrand extends javax.swing.JInternalFrame {
                 String name = txtNewBrand.getText();
 
                 Brand brand = new Brand(newId, name);
-                int result = brandController.addBrandList(brand);
-                if (result > 0) {
-                    JOptionPane.showMessageDialog(this, "New Brand successfully added", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    ArrayList<String> allBrandNames = brandController.getAllBrandNames();
-                    Object[] toArray = allBrandNames.toArray();
+                if (brandController.getIdByName(name).equals("")) {
+                    int result = brandController.addBrandList(brand);
+                    if (result > 0) {
+                        JOptionPane.showMessageDialog(this, "New Brand successfully added", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        ArrayList<String> allBrandNames = brandController.getAllBrandNames();
+                        Object[] toArray = allBrandNames.toArray();
 
-                    String stringArray[] = Arrays.asList(toArray).toArray(new String[0]);
-                    lstBrand.setListData(stringArray);
-                    txtNewBrand.setText("");
-                    txtNewBrand.requestFocus();
+                        String stringArray[] = Arrays.asList(toArray).toArray(new String[0]);
+                        lstBrand.setListData(stringArray);
+                        txtNewBrand.setText("");
+                        txtNewBrand.requestFocus();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Brand added failed", "Failed", JOptionPane.ERROR_MESSAGE);
+                        txtNewBrand.setText("");
+                    }
                 } else {
-                    JOptionPane.showMessageDialog(this, "Brand added failed", "Failed", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Brand " + name + " is already exist", "Failed", JOptionPane.ERROR_MESSAGE);
                     txtNewBrand.setText("");
                 }
             } catch (ClassNotFoundException | SQLException ex) {

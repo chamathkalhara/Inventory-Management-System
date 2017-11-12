@@ -223,7 +223,6 @@ public class PurchaseOrder extends javax.swing.JInternalFrame {
         txtProductName.setEditable(false);
         txtProductName.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
-        cmbSupplierName.setEditable(true);
         cmbSupplierName.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         cmbSupplierName.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -418,6 +417,10 @@ public class PurchaseOrder extends javax.swing.JInternalFrame {
                 Product product = productController.getProductById(pid);
                 String pName = product.getName();
                 txtProductName.setText(pName);
+                
+                String sid = product.getSid();
+                String sName = supplierController.getNameById(sid);
+                cmbSupplierName.setSelectedItem(sName);
 
             } catch (ClassNotFoundException | SQLException ex) {
                 JOptionPane.showMessageDialog(this, "please select a item correcly", "Exception", JOptionPane.ERROR_MESSAGE);

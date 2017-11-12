@@ -26,4 +26,12 @@ public class UserController {
         return result;
     }
     
+    public int addUser(User user) throws ClassNotFoundException, SQLException{
+        Connection connection = DBConnection.getInstance().getConnection();
+        Statement statement = connection.createStatement();
+        String sql = "insert into users values('"+user.getUserName()+"', '"+user.getPassword()+"', '"+user.getType()+"')";
+        int result = statement.executeUpdate(sql);
+        return result;
+    }
+    
 }

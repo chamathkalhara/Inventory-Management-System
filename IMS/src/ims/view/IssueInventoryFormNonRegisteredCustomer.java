@@ -44,7 +44,7 @@ public class IssueInventoryFormNonRegisteredCustomer extends javax.swing.JIntern
             issueController = new IssueController();
             productController = new ProductController();
             stockProductController = new StockProductController();
-            
+
             dtm = (DefaultTableModel) table.getModel();
 
             String newId = issueController.getNewBillId();
@@ -63,7 +63,6 @@ public class IssueInventoryFormNonRegisteredCustomer extends javax.swing.JIntern
             String curDate = sdf.format(date2);
             date = curDate;
 
-            btnIssue.setEnabled(false);
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(IssueInventoryFormNonRegisteredCustomer.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -207,6 +206,11 @@ public class IssueInventoryFormNonRegisteredCustomer extends javax.swing.JIntern
         jScrollPane2.setViewportView(table);
 
         txtPay.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txtPay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPayActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -311,17 +315,14 @@ public class IssueInventoryFormNonRegisteredCustomer extends javax.swing.JIntern
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cmbPid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtUPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(txtQty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtUPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel6)
+                        .addComponent(txtQty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -349,20 +350,59 @@ public class IssueInventoryFormNonRegisteredCustomer extends javax.swing.JIntern
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        if(!txtPName.getText().equals("") && !txtQty.getText().equals("")){
+        if (!txtPName.getText().equals("") && !txtQty.getText().equals("")) {
             String pid = String.valueOf(cmbPid.getSelectedItem());
             String id = txtBillId.getText();
             int qty = Integer.parseInt(txtQty.getText());
             String name = txtPName.getText();
             String unitPrice = txtUPrice.getText();
-            dtm.addRow(new Object[]{id,date,name,qty,Double.parseDouble(unitPrice)});
-        }else{
+            dtm.addRow(new Object[]{id, date, name, qty, Double.parseDouble(unitPrice), Double.parseDouble(unitPrice) * qty});
+
+            cmbPid.setSelectedIndex(-1);
+            txtPName.setText("");
+            txtQty.setText("");
+            txtUPrice.setText("");
+
+            DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+            double total = 0;
+            for (int i = 0; i < dtm.getRowCount(); i++) {
+
+                total += Double.parseDouble(String.valueOf(dtm.getValueAt(i, 5)));
+                txtTotal.setText(String.valueOf(total));
+            }
+        } else {
             JOptionPane.showMessageDialog(this, "Fill all the fields first", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnIssueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIssueActionPerformed
-        // TODO add your handling code here:
+
+        if (!(txtPay.getText().equals("") || txtTotal.getText().equals("") || Double.parseDouble(txtPay.getText()) < Double.parseDouble(txtTotal.getText()))) {
+            DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+            for (int i = 0; i < dtm.getRowCount(); i++) {
+
+                int qty = Integer.parseInt(String.valueOf(dtm.getValueAt(i, 3)));
+                String pName = String.valueOf(dtm.getValueAt(i, 2));
+
+                try {
+                    String pid = productController.getIdByName(pName);
+                    int result = stockProductController.updateStock(qty, "reduce", pid);
+
+                } catch (ClassNotFoundException | SQLException ex) {
+                    Logger.getLogger(IssueInventoryFormNonRegisteredCustomer.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            JOptionPane.showMessageDialog(this, "Inventory issue successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+            dtm.setRowCount(0);
+            String billId = txtBillId.getText();
+            String index = billId.substring(3);
+            String newId = "BIL"+(Integer.parseInt(index)+1);
+            txtBillId.setText(newId);
+            txtTotal.setText("");
+            txtPay.setText("");
+        }else{
+            JOptionPane.showMessageDialog(this, "Something is wrong", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnIssueActionPerformed
 
     private void cmbPidItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbPidItemStateChanged
@@ -382,11 +422,19 @@ public class IssueInventoryFormNonRegisteredCustomer extends javax.swing.JIntern
                 }
 
             } catch (ClassNotFoundException | SQLException ex) {
-                ex.printStackTrace();
                 JOptionPane.showMessageDialog(this, "please select a item correcly", "Exception", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_cmbPidItemStateChanged
+
+    private void txtPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPayActionPerformed
+        if (Double.parseDouble(txtTotal.getText()) > Double.parseDouble(txtPay.getText())) {
+            JOptionPane.showMessageDialog(this, "Pay should be grater than total", "Error", JOptionPane.ERROR_MESSAGE);
+            txtPay.requestFocus();
+        } else {
+            txtBalance.setText(String.valueOf(Double.parseDouble(txtPay.getText()) - Double.parseDouble(txtTotal.getText())));
+        }
+    }//GEN-LAST:event_txtPayActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
